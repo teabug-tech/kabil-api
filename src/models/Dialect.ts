@@ -1,6 +1,12 @@
-import { model, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IUser } from './User';
 
-const dialectSchema = new Schema({
+interface IDialect {
+  name: string;
+  user: PopulatedDoc<IUser>;
+}
+
+const dialectSchema = new Schema<IDialect>({
   name: {
     type: String,
     required: true,
@@ -14,4 +20,5 @@ const dialectSchema = new Schema({
 
 const dialectModel = model('dialect', dialectSchema);
 
+export { IDialect };
 export default dialectModel;
