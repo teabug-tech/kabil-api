@@ -1,6 +1,12 @@
-import { model, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IUser } from './User';
 
-const scriptSchema = new Schema({
+interface IScript {
+  script: string;
+  user: PopulatedDoc<IUser>;
+}
+
+const scriptSchema = new Schema<IScript>({
   script: {
     type: String,
     required: true,
@@ -14,3 +20,4 @@ const scriptSchema = new Schema({
 
 export const latinScriptModel = model('latinScript', scriptSchema);
 export const arabicScriptModel = model('arabicScript', scriptSchema);
+export { IScript };
