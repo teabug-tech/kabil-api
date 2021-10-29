@@ -1,6 +1,12 @@
-import { model, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IUser } from './User';
 
-const domainSchema = new Schema({
+interface IDomain {
+  name: string;
+  user: PopulatedDoc<IUser>;
+}
+
+const domainSchema = new Schema<IDomain>({
   name: {
     type: String,
     required: true,
@@ -14,4 +20,5 @@ const domainSchema = new Schema({
 
 const domainModel = model('domain', domainSchema);
 
+export { IDomain };
 export default domainModel;
