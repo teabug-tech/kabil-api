@@ -7,9 +7,10 @@ interface IUser extends Document {
   gender: string;
   age: number;
   dialect: PopulatedDoc<IDialect>;
+  score: number;
 }
 
-const userSchema = new Schema({
+const userSchema = new Schema<IUser>({
   firstName: {
     type: String,
     required: true,
