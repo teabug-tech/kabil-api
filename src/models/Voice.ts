@@ -1,6 +1,12 @@
-import { model, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IUser } from './User';
 
-const voiceSchema = new Schema({
+interface IVoice {
+  url: string;
+  user: PopulatedDoc<IUser>;
+}
+
+const voiceSchema = new Schema<IVoice>({
   url: {
     type: String,
     required: true,
@@ -12,4 +18,5 @@ const voiceSchema = new Schema({
   },
 });
 
-export const voiceModel = model('voice', voiceSchema);
+export { IVoice };
+export default model('voice', voiceSchema);
