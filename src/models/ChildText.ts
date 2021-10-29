@@ -1,7 +1,22 @@
-import { model, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IDialect } from './Dialect';
+import { IDomain } from './Domain';
+import { IParentText } from './ParentText';
+import { IScript } from './Scripts';
+import { IVoice } from './Voice';
 
-const childTextSchema = new Schema({
-  arabicScipt: {
+interface IChildText {
+  arabicScript?: PopulatedDoc<IScript>;
+  latinScript?: PopulatedDoc<IScript>;
+  voice?: PopulatedDoc<IVoice>;
+  domain?: PopulatedDoc<IDomain>;
+  dialect?: PopulatedDoc<IDialect>;
+  gender?: 'male' | 'female';
+  parent: PopulatedDoc<IParentText>;
+}
+
+const childTextSchema = new Schema<IChildText>({
+  arabicScript: {
     type: Schema.Types.ObjectId,
     ref: 'arabicScript',
   },
@@ -28,9 +43,11 @@ const childTextSchema = new Schema({
   parent: {
     type: Schema.Types.ObjectId,
     ref: 'parentText',
+    required: true,
   },
 });
 
 const childTextModel = model('ChildText', childTextSchema);
 
+export { IChildText };
 export default childTextModel;
