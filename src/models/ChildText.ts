@@ -1,12 +1,36 @@
 import { model, Schema } from 'mongoose';
 
-const ChildTextSchema = new Schema({
+const childTextSchema = new Schema({
   arabicScipt: {
     type: Schema.Types.ObjectId,
-    ref: 'ArabicScript',
+    ref: 'arabicScript',
+  },
+  latinScript: {
+    type: Schema.Types.ObjectId,
+    ref: 'latinScript',
+  },
+  voice: {
+    type: Schema.Types.ObjectId,
+    ref: 'voice',
+  },
+  domain: {
+    type: Schema.Types.ObjectId,
+    ref: 'domain',
+  },
+  dialect: {
+    type: Schema.Types.ObjectId,
+    ref: 'dialect',
+  },
+  gender: {
+    type: String,
+    enum: ['male', 'female'],
+  },
+  parent: {
+    type: Schema.Types.ObjectId,
+    ref: 'parentText',
   },
 });
 
-const ChildTextModel = model('ChildText', ChildTextSchema);
+const childTextModel = model('ChildText', childTextSchema);
 
-export default ChildTextModel;
+export default childTextModel;
