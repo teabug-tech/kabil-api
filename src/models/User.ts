@@ -1,4 +1,13 @@
-import { model, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IDialect } from './Dialect';
+
+interface IUser {
+  firstName: string;
+  lastName: string;
+  gender: string;
+  age: number;
+  dialect: PopulatedDoc<IDialect>;
+}
 
 const userSchema = new Schema({
   firstName: {
@@ -21,6 +30,7 @@ const userSchema = new Schema({
   dialect: {
     type: Schema.Types.ObjectId,
     ref: 'dialect',
+    required: true,
   },
   score: {
     type: Number,
@@ -30,4 +40,5 @@ const userSchema = new Schema({
 
 const userModel = model('user', userSchema);
 
+export { IUser };
 export default userModel;
