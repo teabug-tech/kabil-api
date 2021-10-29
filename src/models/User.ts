@@ -8,6 +8,7 @@ interface IUser extends Document {
   age: number;
   dialect: PopulatedDoc<IDialect>;
   score: number;
+  role: 'guest' | 'admin' | 'user';
 }
 
 const userSchema = new Schema<IUser>({
@@ -36,6 +37,11 @@ const userSchema = new Schema<IUser>({
   score: {
     type: Number,
     default: 0,
+  },
+  role: {
+    type: String,
+    default: 'guest',
+    enum: ['guest', 'admin', 'user'],
   },
 });
 
