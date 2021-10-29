@@ -5,6 +5,11 @@ const scriptSchema = new Schema({
     type: String,
     required: true,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
 });
 
 export const latinScriptModel = model('latinScript', scriptSchema);

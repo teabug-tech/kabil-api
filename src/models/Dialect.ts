@@ -5,6 +5,11 @@ const dialectSchema = new Schema({
     type: String,
     required: true,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: 'user',
+    required: true,
+  },
 });
 
 const dialectModel = model('dialect', dialectSchema);
