@@ -1,4 +1,5 @@
 import { model, PopulatedDoc, Schema } from 'mongoose';
+import { IChildText } from './ChildText';
 import { IDialect } from './Dialect';
 import { IDomain } from './Domain';
 import { IScript } from './Scripts';
@@ -11,8 +12,7 @@ interface IParentText {
   domain?: PopulatedDoc<IDomain>;
   dialect?: PopulatedDoc<IDialect>;
   gender?: 'male' | 'female';
-  //TODO: dont forget to add IChildText
-  childTexts?: PopulatedDoc<Array<any>>;
+  childTexts?: PopulatedDoc<Array<IChildText>>;
   isCompleted?: true | false;
 }
 
@@ -55,5 +55,5 @@ const parentTextSchema = new Schema<IParentText>({
 
 const parentTextModel = model('ChildText', parentTextSchema);
 
-export type ParentTextModel = typeof parentTextModel;
+export { IParentText };
 export default parentTextModel;
