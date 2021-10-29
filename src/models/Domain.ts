@@ -1,7 +1,7 @@
-import { model, PopulatedDoc, Schema } from 'mongoose';
+import { Document, model, PopulatedDoc, Schema } from 'mongoose';
 import { IUser } from './User';
 
-interface IDomain {
+interface IDomain extends Document {
   name: string;
   user: PopulatedDoc<IUser>;
 }

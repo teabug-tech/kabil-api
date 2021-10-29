@@ -1,7 +1,7 @@
-import { model, PopulatedDoc, Schema } from 'mongoose';
+import { Document, model, PopulatedDoc, Schema } from 'mongoose';
 import { IUser } from './User';
 
-interface IScript {
+interface IScript extends Document {
   script: string;
   user: PopulatedDoc<IUser>;
 }

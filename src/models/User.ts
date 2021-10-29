@@ -1,7 +1,7 @@
-import { model, PopulatedDoc, Schema } from 'mongoose';
+import { Document, model, PopulatedDoc, Schema } from 'mongoose';
 import { IDialect } from './Dialect';
 
-interface IUser {
+interface IUser extends Document {
   firstName: string;
   lastName: string;
   gender: string;
