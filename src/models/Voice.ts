@@ -18,5 +18,7 @@ const voiceSchema = new Schema<IVoice>({
   },
 });
 
+const voiceModel = model('voice', voiceSchema);
+
 export { IVoice };
-export default model('voice', voiceSchema);
+export default voiceModel;
