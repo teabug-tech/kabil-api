@@ -9,6 +9,7 @@ interface IUser extends Document {
   dialect: PopulatedDoc<IDialect>;
   score: number;
   role: 'guest' | 'admin' | 'user';
+  password: string;
 }
 
 const userSchema = new Schema<IUser>({
@@ -43,6 +44,7 @@ const userSchema = new Schema<IUser>({
     default: 'guest',
     enum: ['guest', 'admin', 'user'],
   },
+  password: String,
 });
 
 const userModel = model('user', userSchema);
