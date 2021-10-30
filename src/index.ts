@@ -2,6 +2,7 @@ import express from 'express';
 import morgan from 'morgan';
 import connect from './db/connect';
 import * as dotenv from 'dotenv';
+import errorMiddleware from './middlewares/errorMiddleware';
 
 dotenv.config();
 const app = express();
@@ -15,7 +16,7 @@ const start = async () => {
       console.log(`Server up and running on port ${process.env.PORT} !`);
     });
   } catch (e) {
-    console.log(e);
+    console.error(e);
   }
 };
 
@@ -23,4 +24,5 @@ app.get('/', (req, res) => {
   res.end('hello world');
 });
 
+app.use(errorMiddleware);
 start();
