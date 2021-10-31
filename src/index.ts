@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import connect from './db/connect';
 import * as dotenv from 'dotenv';
 import errorMiddleware from './middlewares/errorMiddleware';
+import Test from './models/Test';
 
 dotenv.config();
 const app = express();
@@ -20,9 +21,17 @@ const start = async () => {
   }
 };
 
-app.get('/', (req, res) => {
-  res.end('hello world');
+app.get('/', async (req, res, next) => {
+  try {
+    await Test.create({ name: 'taha' });
+    res.end('hello world');
+  } catch (e) {
+    next(e);
+  }
 });
 
-app.use(errorMiddleware);
+app.use(function (err, req, res, next) {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
 start();
