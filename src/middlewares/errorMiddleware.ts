@@ -1,11 +1,19 @@
-import { ErrorRequestHandler, NextFunction, Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
+import { MongoServerError } from 'mongodb';
+import { Error } from 'mongoose';
 import { handleDuplicateKeyError, handleValidationError } from '../controllers/errorController';
 
-export default (err: ErrorRequestHandler | any, req: Request, res: Response, next: NextFunction) => {
+export default (err: Error, req: Request, res: Response, next: NextFunction) => {
   try {
-    if (err.name === 'ValidationError') return (err = handleValidationError(err, res));
-    if (err.code && err.code == 11000) return (err = handleDuplicateKeyError(err, res));
-    else res.status(400).send(err.message);
+    if (err instanceof MongoServerError) {
+      if (err.code && err.code == 11000) {
+        return handleDuplicateKeyError(err, res);
+      }
+    }
+    if (err instanceof Error.ValidationError) {
+      return handleValidationError(err, res);
+    }
+    return res.status(400).send(err.message);
   } catch (err) {
     res.status(500).send('An unknown error occurred.');
   }
