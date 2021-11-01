@@ -11,13 +11,14 @@ export const handleDuplicateKeyError = (err: MongoServerError, res: Response) =>
 };
 
 export const handleValidationError = (err: Error.ValidationError, res: Response) => {
-  const errors = Object.values(err.errors).map((el: any) => el.message);
-  const fields = Object.values(err.errors).map((el: any) => el.path);
+  console.log(err.errors);
+  const errors = Object.values(err.errors).map((el: Error.ValidatorError) => el.message);
+  const fields = Object.values(err.errors).map((el: Error.ValidatorError) => el.path);
   const code = 400;
   if (errors.length > 1) {
     const formattedErrors = errors.join(' ');
     res.status(code).json({ message: formattedErrors, fields: fields });
   } else {
-    res.status(code).json({ message: errors, fields: fields });
+    res.status(code).json({ message: errors[0], fields: fields });
   }
 };
