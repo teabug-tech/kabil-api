@@ -15,6 +15,6 @@ export default (err: Error, req: Request, res: Response, next: NextFunction) => 
     }
     return res.status(400).send(err.message);
   } catch (err) {
-    res.status(500).send('An unknown error occurred.');
+    return res.status(500).send('An unknown error occurred.');
   }
 };
