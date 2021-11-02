@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { MongoServerError } from 'mongodb';
 import { Error } from 'mongoose';
-import { handleDuplicateKeyError, handleValidationError } from '../controllers/errorController';
+import { handleDuplicateKeyError, handleValidationError } from '../controllers/ErrorController';
 
 export default (err: Error, req: Request, res: Response, next: NextFunction) => {
   try {
