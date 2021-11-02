@@ -109,9 +109,3 @@ export default <T, U>(crud: crud<T, U>) => ({
   updateOne: updateOne(crud.updateOne),
   deleteOne: deleteOne(crud.deleteOne),
 });
-
-// export default <T, U>(getManyFn: GetManyFn<T, U>, getOneFn: GetOneFn<T, U>, getAllFn: GetAllFn<U>) => ({
-//   getMany: getMany(getManyFn),
-//   getAll: getAll(getAllFn),
-//   getOne: getOne(getOneFn),
-// });
