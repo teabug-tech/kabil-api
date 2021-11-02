@@ -17,10 +17,10 @@ const getMany =
 const getOneAndPopulate =
   <T extends Document>(model: Model<T>) =>
   (filter: FilterQuery<T>) =>
-  (ref: PopulateOptions) =>
+  (populateOptions: PopulateOptions) =>
   (arg: object | string | Array<string>) =>
   async () =>
-    await model.findOne(filter).lean().select(arg).populate(ref);
+    await model.findOne(filter).select(arg).lean().populate(populateOptions).exec();
 
 const getAll =
   <T extends Document>(model: Model<T>) =>
