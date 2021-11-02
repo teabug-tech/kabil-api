@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 
 type GetOneFn<T, U> = (filter: T) => (arg: string | object | string[]) => () => Promise<U>;
-type GetManyFn<T, U> = (filter: T) => (arg: string | object | string[]) => () => Promise<U>;
-type GetAllFn<U> = () => Promise<U>;
+type GetManyFn<T, U> = (filter: T) => (arg: string | object | string[]) => () => Promise<U[]>;
+type GetAllFn<U> = () => Promise<U[]>;
 type CreateOneFn<U> = (data: object) => () => Promise<U>;
 type UpdateOneFn<T, U> = (filter: T) => (data: object) => (options: object) => () => Promise<U>;
 type DeleteOneFn<T, U> = (filter: T) => () => Promise<U>;
@@ -101,16 +101,17 @@ interface crud<T, U> {
   deleteOne: DeleteOneFn<T, U>;
 }
 
-// export default <T, U>(crud: crud<T, U>) => ({
-//   getOne: getOne(crud.getOne),
-//   getMany: getMany(crud.getMany),
-//   getAll: getAll(crud.getAll),
-//   createOne: createOne(crud.createOne),
-//   updateOne: updateOne(crud.updateOne),
-//   deleteOne: deleteOne(crud.deleteOne),
-// });
-
-export default <T, U>(getManyFn: GetManyFn<T, U>, getAllFn: GetAllFn<U>) => ({
-  getMany: getMany(getManyFn),
-  getAll: getAll(getAllFn),
+export default <T, U>(crud: crud<T, U>) => ({
+  getOne: getOne(crud.getOne),
+  getMany: getMany(crud.getMany),
+  getAll: getAll(crud.getAll),
+  createOne: createOne(crud.createOne),
+  updateOne: updateOne(crud.updateOne),
+  deleteOne: deleteOne(crud.deleteOne),
 });
+
+// export default <T, U>(getManyFn: GetManyFn<T, U>, getOneFn: GetOneFn<T, U>, getAllFn: GetAllFn<U>) => ({
+//   getMany: getMany(getManyFn),
+//   getAll: getAll(getAllFn),
+//   getOne: getOne(getOneFn),
+// });
