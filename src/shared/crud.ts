@@ -3,14 +3,14 @@ import { AnyKeys, AnyObject, Document, FilterQuery, Model, PopulateOptions, Quer
 const getOne =
   <T extends Document>(model: Model<T>) =>
   (filter: FilterQuery<T>) =>
-  (arg: object | string | Array<string>) =>
+  (arg?: object | string | Array<string>) =>
   async () =>
     await model.findOne(filter).select(arg).lean().exec();
 
 const getMany =
   <T extends Document>(model: Model<T>) =>
   (filter: FilterQuery<T>) =>
-  (arg: object | string | Array<string>) =>
+  (arg?: object | string | Array<string>) =>
   async () =>
     await model.find(filter).select(arg).lean().exec();
 
@@ -18,7 +18,7 @@ const getOneAndPopulate =
   <T extends Document>(model: Model<T>) =>
   (filter: FilterQuery<T>) =>
   (populateOptions: PopulateOptions) =>
-  (arg: object | string | Array<string>) =>
+  (arg?: object | string | Array<string>) =>
   async () =>
     await model.findOne(filter).select(arg).lean().populate(populateOptions).exec();
 
