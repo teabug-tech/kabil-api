@@ -1,20 +1,29 @@
 import { NextFunction, Request, Response } from 'express';
+import { FilterQuery } from 'mongoose';
 
-type GetOneFn<T, U> = (filter: T) => (arg: string | object | string[]) => () => Promise<U>;
-type GetManyFn<T, U> = (filter: T) => (arg: string | object | string[]) => () => Promise<U[]>;
+type Filter<T> = FilterQuery<T>;
+
+type Arg = string | object | string[];
+
+type GetOneFn<T, U> = (filter: Filter<T>) => (arg?: Arg) => () => Promise<U>;
+type GetManyFn<T, U> = (filter: Filter<T>) => (arg?: Arg) => () => Promise<U[]>;
 type GetAllFn<U> = () => Promise<U[]>;
 type CreateOneFn<U> = (data: object) => () => Promise<U>;
-type UpdateOneFn<T, U> = (filter: T) => (data: object) => (options: object) => () => Promise<U>;
-type DeleteOneFn<T, U> = (filter: T) => () => Promise<U>;
+type UpdateOneFn<T, U> = (filter: Filter<T>) => (data: object) => (options?: object) => () => Promise<U>;
+type DeleteOneFn<T, U> = (filter: Filter<T>) => () => Promise<U>;
 
 const getOne =
   <T, U>(getOne: GetOneFn<T, U>) =>
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log('hello world');
     try {
-      const filter = req.body.filter;
-      const arg = req.body.arg;
+      const filter = {
+        _id: req.params.id,
+      } as FilterQuery<T>;
+
+      // const arg = req.params.arg;
       const select = getOne(filter);
-      const exec = select(arg);
+      const exec = select();
       const doc = await exec();
       return res.status(200).json({ success: true, message: doc });
     } catch (e) {
@@ -26,10 +35,13 @@ const getMany =
   <T, U>(getMany: GetManyFn<T, U>) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const filter = req.body.filter;
-      const arg = req.body.arg;
+      const filter = {
+        _id: req.params.id,
+      } as FilterQuery<T>;
+
+      // const arg = req.params.arg;
       const select = getMany(filter);
-      const exec = select(arg);
+      const exec = select();
       const docs = await exec();
       return res.status(200).json({ success: true, message: docs });
     } catch (e) {
