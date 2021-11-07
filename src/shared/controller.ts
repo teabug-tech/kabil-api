@@ -14,16 +14,12 @@ type DeleteOneFn<T, U> = (filter: Filter<T>) => () => Promise<U>;
 
 const getOne =
   <T, U>(getOne: GetOneFn<T, U>) =>
+  (filter: FilterQuery<T>) =>
+  (arg: Arg) =>
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log('hello world');
     try {
-      const filter = {
-        _id: req.params.id,
-      } as FilterQuery<T>;
-
-      // const arg = req.params.arg;
       const select = getOne(filter);
-      const exec = select();
+      const exec = select(arg);
       const doc = await exec();
       return res.status(200).json({ success: true, message: doc });
     } catch (e) {
@@ -33,15 +29,14 @@ const getOne =
 
 const getMany =
   <T, U>(getMany: GetManyFn<T, U>) =>
+  (arg: Arg) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const filter = {
         _id: req.params.id,
       } as FilterQuery<T>;
-
-      // const arg = req.params.arg;
       const select = getMany(filter);
-      const exec = select();
+      const exec = select(arg);
       const docs = await exec();
       return res.status(200).json({ success: true, message: docs });
     } catch (e) {
