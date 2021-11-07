@@ -9,6 +9,8 @@ import { auth } from '@googleapis/docs';
 import { google } from 'googleapis';
 import authMiddleware from './middlewares/authMiddleware';
 import AuthController from './controllers/AuthController';
+import jwt from 'jsonwebtoken';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 const app = express();
@@ -34,6 +36,7 @@ const url = oauth2Client.generateAuthUrl({
 
 app.use(morgan('dev'));
 app.use(express.json());
+app.use(cookieParser());
 
 const start = async () => {
   try {
@@ -54,8 +57,10 @@ app.get('/', (req, res, next) => {
 app.get('/auth/google', async (req, res) => {
   const { access_token, id_token } = (await oauth2Client.getToken(req.query.code as string)).tokens;
   oauth2Client.setCredentials({ access_token, id_token });
-  console.log(await oauth2.userinfo.get());
-  res.end();
+  const user = (await oauth2.userinfo.get()).data;
+
+  res.cookie('JWT', jwt.sign(user, process.env.JWT_SECRET));
+  res.redirect('http://localhost:4444/hello');
 });
 
 app.post('/sign', AuthController);
