@@ -7,6 +7,8 @@ import Test from './models/Test';
 import testRouter from './routes/testRoute';
 import { auth } from '@googleapis/docs';
 import { google } from 'googleapis';
+import authMiddleware from './middlewares/authMiddleware';
+import AuthController from './controllers/AuthController';
 
 dotenv.config();
 const app = express();
@@ -54,6 +56,12 @@ app.get('/auth/google', async (req, res) => {
   oauth2Client.setCredentials({ access_token, id_token });
   console.log(await oauth2.userinfo.get());
   res.end();
+});
+
+app.post('/sign', AuthController);
+app.use(authMiddleware);
+app.get('/hello', (req, res) => {
+  return res.end('hello world');
 });
 
 app.use(errorMiddleware);
