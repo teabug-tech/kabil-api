@@ -11,7 +11,7 @@ const googleAuthRouter = Router();
 const oauth2Client = new auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
-  process.env.REDIRECT_URL
+  process.env.GOOGLE_REDIRECT_URL
 );
 
 // generate a url that asks permissions for Blogger and Google Calendar scopes
