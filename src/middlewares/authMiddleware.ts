@@ -1,12 +1,15 @@
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { NextFunction, Request, Response } from 'express';
 
 dotenv.config();
 
-export default (req, res, next) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.cookies['JWT'];
-    console.log(token);
+    let token = req.cookies['JWT'];
+    if (!token) {
+      token = req.headers['authorization'].split(' ')[1];
+    }
     jwt.verify(token, process.env.JWT_SECRET);
     next();
   } catch (e) {
