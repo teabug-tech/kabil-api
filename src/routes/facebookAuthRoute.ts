@@ -2,6 +2,7 @@ import { Router } from 'express';
 import * as queryString from 'query-string';
 import * as dotenv from 'dotenv';
 import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 const facebookAuthRouter = Router();
@@ -54,8 +55,9 @@ facebookAuthRouter.get('/auth/facebook', async (req, res, next) => {
   try {
     const code = req.query.code;
     const token = await getAccessTokenFromCode(code);
-    const data = await getFacebookUserData(token);
-    res.send(data);
+    const user = await getFacebookUserData(token);
+    res.cookie('JWT', jwt.sign(user, process.env.JWT_SECRET));
+    res.redirect('/hello');
   } catch (e) {
     next(e);
   }
