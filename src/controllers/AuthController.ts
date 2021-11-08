@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { NextFunction, Request, Response } from 'express';
 
 dotenv.config();
-export default (req, res, next) => {
+export default (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('auth controller');
     const token = jwt.sign(req.body.user, process.env.JWT_SECRET);
     res.json(token);
   } catch (e) {
