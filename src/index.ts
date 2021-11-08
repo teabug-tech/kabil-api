@@ -8,6 +8,7 @@ import authMiddleware from './middlewares/authMiddleware';
 import AuthController from './controllers/AuthController';
 import cookieParser from 'cookie-parser';
 import googleAuthRouter from './routes/googleAuthRoute';
+import facebookAuthRouter from './routes/facebookAuthRoute';
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ const start = async () => {
 };
 
 app.use(googleAuthRouter);
+app.use(facebookAuthRouter);
 
 app.use('/test', testRouter);
 
