@@ -1,7 +1,7 @@
 import { Document, model, PopulatedDoc, Schema } from 'mongoose';
 import { IDialect } from './Dialect';
 
-interface IUser extends Document {
+export interface IUserObject {
   firstName: string;
   lastName: string;
   gender: string;
@@ -9,8 +9,10 @@ interface IUser extends Document {
   dialect: PopulatedDoc<IDialect>;
   score: number;
   role: 'guest' | 'admin' | 'user';
-  password: string;
+  password?: string;
 }
+
+interface IUser extends Document, IUserObject {}
 
 const userSchema = new Schema<IUser>({
   firstName: {
