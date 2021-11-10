@@ -1,6 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
-import connect from './db/connect';
+import { connect } from './db';
 import * as dotenv from 'dotenv';
 import errorMiddleware from './middlewares/errorMiddleware';
 import testRouter from './routes/testRoute';
@@ -9,6 +9,7 @@ import AuthController from './controllers/AuthController';
 import cookieParser from 'cookie-parser';
 import googleAuthRouter from './routes/googleAuthRoute';
 import facebookAuthRouter from './routes/facebookAuthRoute';
+import userRouter from './routes/userRoute';
 
 dotenv.config();
 const app = express();
@@ -28,6 +29,7 @@ const start = async () => {
   }
 };
 
+app.use('/users', userRouter);
 app.use(googleAuthRouter);
 app.use(facebookAuthRouter);
 
