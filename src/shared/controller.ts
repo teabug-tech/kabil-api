@@ -29,12 +29,10 @@ const getOne =
 
 const getMany =
   <T, U>(getMany: GetManyFn<T, U>) =>
+  (filter: FilterQuery<T>) =>
   (arg: Arg) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const filter = {
-        _id: req.params.id,
-      } as FilterQuery<T>;
       const select = getMany(filter);
       const exec = select(arg);
       const docs = await exec();
