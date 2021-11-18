@@ -7,7 +7,7 @@ export const handleDuplicateKeyError = (err: MongoServerError, res: Response) =>
   const field = Object.keys(err.keyValue);
   const code = 409;
   const error = `The field ${field} already exists.`;
-  res.status(code).json({ message: error, fields: field });
+  res.status(code).json({ success: false, message: error, fields: field });
 };
 
 export const handleValidationError = (err: Error.ValidationError, res: Response) => {
@@ -17,8 +17,8 @@ export const handleValidationError = (err: Error.ValidationError, res: Response)
   const code = 400;
   if (errors.length > 1) {
     const formattedErrors = errors.join(' ');
-    res.status(code).json({ message: formattedErrors, fields: fields });
+    res.status(code).json({ success: false, message: formattedErrors, fields: fields });
   } else {
-    res.status(code).json({ message: errors[0], fields: fields });
+    res.status(code).json({ success: false, message: errors[0], fields: fields });
   }
 };
