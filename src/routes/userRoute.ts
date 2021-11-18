@@ -5,8 +5,8 @@ const userRouter = express();
 
 userRouter.use(express.json());
 
-userRouter.get('/:dialect', async (req, res, next) => {
-  const select = UserController.getMany({ dialect: req.params.dialect });
+userRouter.get('/:name', async (req, res, next) => {
+  const select = UserController.getMany({ name: req.params.name });
   const exec = select('firstname lastname score gender role');
   return await exec(req, res, next);
 });
