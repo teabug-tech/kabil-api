@@ -1,9 +1,9 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { MongoServerError } from 'mongodb';
 import { Error } from 'mongoose';
 import { handleDuplicateKeyError, handleValidationError } from '../controllers/ErrorController';
 
-export default (err: Error, req: Request, res: Response) => {
+export default (err: Error, req: Request, res: Response, next: NextFunction) => {
   try {
     if (err instanceof MongoServerError) {
       if (err.code && err.code == 11000) {
