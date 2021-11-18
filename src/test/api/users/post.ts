@@ -21,7 +21,7 @@ describe('POST /users', () => {
       .catch((e) => done(e));
   });
 
-  it('Creating a new user', (done) => {
+  it('Creates a new user', (done) => {
     const user: IUserObject = {
       firstName: 'taha',
       lastName: 'baz',
@@ -39,10 +39,10 @@ describe('POST /users', () => {
       .expect(201)
       .then((res) => {
         const body = res.body;
-        expect(body).to.have.property('data');
+        expect(body).to.have.property('message');
         expect(body).to.have.property('success');
         expect(body.success).to.be.true;
-        expect(body.data).to.have.keys([...Object.keys(user), '__v', '_id']);
+        expect(body.message).to.have.keys([...Object.keys(user), '__v', '_id']);
         done();
       })
       .catch((e) => done(e));
