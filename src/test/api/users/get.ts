@@ -89,4 +89,18 @@ describe('/GET /users', () => {
       })
       .catch(done);
   });
+
+  it('Should not get anything', (done) => {
+    request(userRouter)
+      .get(`/${0}`)
+      .expect('Content-Type', /json/)
+      .expect(404)
+      .then((res) => {
+        const body = res.body;
+        expect(body).to.have.property('message');
+        expect(body).to.have.property('success');
+        expect(body.success).to.be.false;
+        done();
+      });
+  });
 });
