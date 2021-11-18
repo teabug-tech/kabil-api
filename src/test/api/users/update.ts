@@ -71,8 +71,7 @@ describe('Update /user', () => {
       .send({ data, filter: { _id: 0 } })
       .expect('Content-Type', /json/)
       .expect(404)
-      .then((res) => {
-        console.log(res.body);
+      .then(() => {
         done();
       })
       .catch(done);
