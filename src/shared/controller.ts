@@ -91,6 +91,7 @@ const deleteOne =
       const filter = req.body.filter;
       const exec = deleteOne(filter);
       const deleted = await exec();
+      if (!deleted) return res.status(404).json({ success: false, message: 'Document not found' });
       return res.status(200).json({ success: true, message: deleted });
     } catch (e) {
       next(e);
