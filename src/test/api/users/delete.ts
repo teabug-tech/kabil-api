@@ -58,4 +58,16 @@ describe('Delete /user', () => {
       })
       .catch(done);
   });
+
+  it('Should not delete a user', (done) => {
+    request(userRouter)
+      .delete('/')
+      .send({ _id: id })
+      .expect('Content-Type', /json/)
+      .expect(404)
+      .then(() => {
+        done();
+      })
+      .catch(done);
+  });
 });

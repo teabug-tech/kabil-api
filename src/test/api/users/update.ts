@@ -61,4 +61,20 @@ describe('Update /user', () => {
       })
       .catch(done);
   });
+
+  it('Should not update a user', (done) => {
+    const data = {
+      firstName: 'newname',
+    };
+    request(userRouter)
+      .put('/')
+      .send({ data, filter: { _id: 0 } })
+      .expect('Content-Type', /json/)
+      .expect(404)
+      .then((res) => {
+        console.log(res.body);
+        done();
+      })
+      .catch(done);
+  });
 });
