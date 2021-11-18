@@ -12,16 +12,17 @@ describe('POST /users', () => {
   before((done) => {
     connect()
       .then(() => done())
-      .catch((e) => done(e));
+      .catch(done);
   });
 
   after((done) => {
     disconnect()
       .then(() => done())
-      .catch((e) => done(e));
+      .catch(done);
   });
 
   it('Creates a new user', (done) => {
+    if (process.env.NODE_ENV == 'production') return done();
     const user: IUserObject = {
       firstName: 'taha',
       lastName: 'baz',
@@ -45,6 +46,6 @@ describe('POST /users', () => {
         expect(body.message).to.have.keys([...Object.keys(user), '__v', '_id']);
         done();
       })
-      .catch((e) => done(e));
+      .catch(done);
   });
 });

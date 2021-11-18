@@ -4,12 +4,16 @@ import request from 'supertest';
 import { connect, disconnect } from '../../../db';
 import { IUserObject } from '../../../models/User';
 import userRouter from '../../../routes/userRoute';
+import * as dotenv from 'dotenv';
 
-let id = 0;
+dotenv.config();
+let id = '6196283965516a598da99848';
 describe('/GET /users', () => {
   before((done) => {
     connect()
       .then(() => {
+        if (process.env.NODE_ENV == 'production') return done();
+
         const user: IUserObject = {
           firstName: 'taha',
           lastName: 'baz',
@@ -45,7 +49,8 @@ describe('/GET /users', () => {
         expect(body).to.have.property('message');
         expect(body).to.have.property('success');
         done();
-      });
+      })
+      .catch(done);
   });
 
   it('Gets by filter', (done) => {
@@ -63,7 +68,8 @@ describe('/GET /users', () => {
         expect(user).to.have.property('firstName');
         expect(user.firstName).to.be.equal('taha');
         done();
-      });
+      })
+      .catch(done);
   });
 
   it('Gets by id', (done) => {
@@ -80,6 +86,7 @@ describe('/GET /users', () => {
         expect(user).to.have.property('_id');
         expect(user._id).to.be.equal(id);
         done();
-      });
+      })
+      .catch(done);
   });
 });
