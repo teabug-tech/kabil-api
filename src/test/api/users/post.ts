@@ -1,4 +1,4 @@
-import { expect, use } from 'chai';
+import { expect } from 'chai';
 import { connect, disconnect } from '../../../db';
 import * as dotenv from 'dotenv';
 import request from 'supertest';
