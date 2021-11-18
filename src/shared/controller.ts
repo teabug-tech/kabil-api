@@ -15,7 +15,7 @@ type DeleteOneFn<T, U> = (filter: Filter<T>) => () => Promise<U>;
 const getOne =
   <T, U>(getOne: GetOneFn<T, U>) =>
   (filter: FilterQuery<T>) =>
-  (arg: Arg) =>
+  (arg?: Arg) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const select = getOne(filter);
@@ -30,7 +30,7 @@ const getOne =
 const getMany =
   <T, U>(getMany: GetManyFn<T, U>) =>
   (filter: FilterQuery<T>) =>
-  (arg: Arg) =>
+  (arg?: Arg) =>
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const select = getMany(filter);
