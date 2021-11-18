@@ -5,6 +5,7 @@ import { connect, disconnect } from '../../../db';
 import { IUserObject } from '../../../models/User';
 import userRouter from '../../../routes/userRoute';
 
+let id = 0;
 describe('/GET /users', () => {
   before((done) => {
     connect()
@@ -21,7 +22,10 @@ describe('/GET /users', () => {
         request(userRouter)
           .post('/')
           .send({ data: user })
-          .then(() => done());
+          .then((res) => {
+            id = res.body.message._id;
+            done();
+          });
       })
       .catch((e) => done(e));
   });
@@ -58,6 +62,23 @@ describe('/GET /users', () => {
         const user = body.message[0];
         expect(user).to.have.property('firstName');
         expect(user.firstName).to.be.equal('taha');
+        done();
+      });
+  });
+
+  it('Gets by id', (done) => {
+    request(userRouter)
+      .get(`/${id}`)
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        const body = res.body;
+        expect(body).to.have.property('message');
+        expect(body).to.have.property('success');
+        expect(body.message).to.be.an('object');
+        const user = body.message;
+        expect(user).to.have.property('_id');
+        expect(user._id).to.be.equal(id);
         done();
       });
   });
