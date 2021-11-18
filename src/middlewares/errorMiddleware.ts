@@ -13,7 +13,7 @@ export default (err: Error, req: Request, res: Response, next: NextFunction) => 
     if (err instanceof Error.ValidationError) {
       return handleValidationError(err, res);
     }
-    return res.status(400).send('incorrect data');
+    return res.status(404).send({ success: false, message: err.message });
   } catch (err) {
     return res.status(500).send('An unknown error occurred.');
   }
