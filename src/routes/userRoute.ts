@@ -17,20 +17,12 @@ userRouter.get('/:id', async (req, res, next) => {
   return await exec(req, res, next);
 });
 
-userRouter.get('/', async (req, res, next) => {
-  return await UserController.getAll(req, res, next);
-});
+userRouter.get('/', UserController.getAll);
 
-userRouter.post('/', async (req, res, next) => {
-  return await UserController.createOne(req, res, next);
-});
+userRouter.post('/', UserController.createOne);
 
-userRouter.delete('/', async (req, res, next) => {
-  return await UserController.deleteOne(req, res, next);
-});
+userRouter.delete('/', UserController.deleteOne);
 
-userRouter.put('/', async (req, res, next) => {
-  return await UserController.updateOne(req, res, next);
-});
+userRouter.put('/', UserController.updateOne);
 
 export default userRouter;
