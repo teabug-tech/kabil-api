@@ -1,7 +1,13 @@
-import express from 'express';
+import express, { Router } from 'express';
 import UserController from '../controllers/UserController';
+import errorMiddleware from '../middlewares/errorMiddleware';
+import * as dotenv from 'dotenv';
 
-const userRouter = express();
+dotenv.config();
+
+let userRouter = Router();
+
+if (process.env.NODE_ENV == 'test') userRouter = express();
 
 userRouter.use(express.json());
 
@@ -24,5 +30,7 @@ userRouter.post('/', UserController.createOne);
 userRouter.delete('/', UserController.deleteOne);
 
 userRouter.put('/', UserController.updateOne);
+
+if (process.env.NODE_ENV == 'test') userRouter.use(errorMiddleware);
 
 export default userRouter;
