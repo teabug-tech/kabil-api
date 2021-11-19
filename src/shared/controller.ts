@@ -72,12 +72,13 @@ const updateOne =
     try {
       const filter = req.body.filter;
       const data = req.body.data;
-      const options = req.body.options;
-
+      let options = req.body.options;
+      if (!options) options = { new: true };
       const insertData = updateOne(filter);
       const insertOptions = insertData(data);
       const exec = insertOptions(options);
       const updated = await exec();
+      if (!updated) return res.status(404).json({ success: false, message: 'Document not found' });
       return res.status(200).json({ success: true, message: updated });
     } catch (e) {
       next(e);
