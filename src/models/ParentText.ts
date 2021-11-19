@@ -1,4 +1,5 @@
 import { Document, model, PopulatedDoc, Schema } from 'mongoose';
+import ParentTextService from '../services/ParentTextService';
 import { IChildText } from './ChildText';
 import { IDialect } from './Dialect';
 import { IDomain } from './Domain';
@@ -53,7 +54,13 @@ const parentTextSchema = new Schema<IParentText>({
   },
 });
 
-const parentTextModel = model('ChildText', parentTextSchema);
+parentTextSchema.post('findOneAndUpdate', async function (doc: IParentText) {
+  if (doc.latinScript && doc.arabicScript && doc.voice && doc.gender && doc.dialect && doc.domain) {
+    await parentTextModel.updateOne({ _id: doc._id }, { isCompleted: true }, { new: true });
+  }
+});
+
+const parentTextModel = model('ParentText', parentTextSchema);
 
 export { IParentText };
 export default parentTextModel;
