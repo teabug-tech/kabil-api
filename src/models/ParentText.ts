@@ -1,5 +1,4 @@
 import { Document, model, PopulatedDoc, Schema } from 'mongoose';
-import ParentTextService from '../services/ParentTextService';
 import { IChildText } from './ChildText';
 import { IDialect } from './Dialect';
 import { IDomain } from './Domain';
