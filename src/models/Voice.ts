@@ -1,7 +1,7 @@
-import { Document, model, PopulatedDoc, Schema } from 'mongoose';
+import { model, PopulatedDoc, Schema } from 'mongoose';
 import { IUser } from './User';
 
-interface IVoice extends Document {
+interface IVoice {
   url: string;
   user: PopulatedDoc<IUser>;
 }
