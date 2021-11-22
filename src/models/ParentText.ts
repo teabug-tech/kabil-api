@@ -1,5 +1,4 @@
-import { model, PopulatedDoc, Schema } from 'mongoose';
-import ParentTextService from '../services/ParentTextService';
+import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
 import { IChildText } from './ChildText';
 import { IDialect } from './Dialect';
 import { IDomain } from './Domain';
@@ -7,6 +6,7 @@ import { IScript } from './Scripts';
 import { IVoice } from './Voice';
 
 interface IParentText {
+  _id?: ObjectId;
   arabicScript?: PopulatedDoc<IScript>;
   latinScript?: PopulatedDoc<IScript>;
   voice?: PopulatedDoc<IVoice>;
