@@ -2,6 +2,7 @@ import express, { Router } from 'express';
 import UserController from '../controllers/UserController';
 import errorMiddleware from '../middlewares/errorMiddleware';
 import * as dotenv from 'dotenv';
+import { Condition, ObjectId } from 'mongoose';
 
 dotenv.config();
 
@@ -18,7 +19,7 @@ userRouter.get('/', async (req, res, next) => {
 });
 
 userRouter.get('/:id', async (req, res, next) => {
-  const select = UserController.getOne({ _id: req.params.id });
+  const select = UserController.getOne({ _id: req.params.id as Condition<ObjectId> });
   const exec = select('firstName lastName score');
   return await exec(req, res, next);
 });

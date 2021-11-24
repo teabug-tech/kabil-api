@@ -1,5 +1,6 @@
 import * as dotenv from 'dotenv';
 import express, { Router } from 'express';
+import { Condition, ObjectId } from 'mongoose';
 import LatinScriptController from '../controllers/LatinScriptController';
 import errorMiddleware from '../middlewares/errorMiddleware';
 
@@ -17,7 +18,7 @@ latinScriptRouter.get('/', async (req, res, next) => {
 });
 
 latinScriptRouter.get('/:id', async (req, res, next) => {
-  const select = LatinScriptController.getOne({ _id: req.params.id });
+  const select = LatinScriptController.getOne({ _id: req.params.id as Condition<ObjectId>});
   const exec = select('script user');
   return await exec(req, res, next);
 });
