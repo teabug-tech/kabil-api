@@ -4,7 +4,7 @@ import { connect } from './db';
 import * as dotenv from 'dotenv';
 import errorMiddleware from './middlewares/errorMiddleware';
 import testRouter from './routes/testRoute';
-import authMiddleware from './middlewares/authMiddleware';
+import { adminAuth, userAuth } from './middlewares/authMiddleware';
 import AuthController from './controllers/AuthController';
 import cookieParser from 'cookie-parser';
 import googleAuthRouter from './routes/googleAuthRoute';
@@ -30,14 +30,14 @@ const start = async () => {
 };
 
 app.use('/users', userRouter);
-app.use(googleAuthRouter);
-app.use(facebookAuthRouter);
+
+app.use('/auth', googleAuthRouter);
+app.use('/auth', facebookAuthRouter);
 
 app.use('/test', testRouter);
 
-app.post('/sign', AuthController);
+app.use(userAuth);
 
-app.use(authMiddleware);
 app.get('/hello', (req, res) => {
   return res.end('hello world');
 });
