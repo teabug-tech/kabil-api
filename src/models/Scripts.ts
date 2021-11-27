@@ -1,7 +1,8 @@
-import { Document, model, PopulatedDoc, Schema } from 'mongoose';
+import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
 import { IUser } from './User';
 
-interface IScript extends Document {
+interface IScript {
+  _id?: ObjectId;
   script: string;
   user: PopulatedDoc<IUser>;
 }

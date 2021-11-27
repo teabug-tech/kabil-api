@@ -1,7 +1,8 @@
-import { Document, model, PopulatedDoc, Schema } from 'mongoose';
+import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
 import { IDialect } from './Dialect';
 
-export interface IUserObject {
+export interface IUser {
+  _id?: ObjectId;
   firstName: string;
   lastName: string;
   gender: string;
@@ -11,8 +12,6 @@ export interface IUserObject {
   role: 'guest' | 'admin' | 'user';
   password?: string;
 }
-
-interface IUser extends Document, IUserObject {}
 
 const userSchema = new Schema<IUser>({
   firstName: {
@@ -49,7 +48,6 @@ const userSchema = new Schema<IUser>({
   password: String,
 });
 
-const userModel = model('user', userSchema);
+const userModel = model<IUser>('user', userSchema);
 
-export { IUser };
 export default userModel;

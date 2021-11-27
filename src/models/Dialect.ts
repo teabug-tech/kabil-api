@@ -1,7 +1,8 @@
-import { Document, model, PopulatedDoc, Schema } from 'mongoose';
+import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
 import { IUser } from './User';
 
-interface IDialect extends Document {
+interface IDialect {
+  _id?: ObjectId;
   name: string;
   user: PopulatedDoc<IUser>;
 }

@@ -1,11 +1,12 @@
-import { Document, model, PopulatedDoc, Schema } from 'mongoose';
+import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
 import { IChildText } from './ChildText';
 import { IDialect } from './Dialect';
 import { IDomain } from './Domain';
 import { IScript } from './Scripts';
 import { IVoice } from './Voice';
 
-interface IParentText extends Document {
+interface IParentText {
+  _id?: ObjectId;
   arabicScript?: PopulatedDoc<IScript>;
   latinScript?: PopulatedDoc<IScript>;
   voice?: PopulatedDoc<IVoice>;

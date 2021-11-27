@@ -2,8 +2,10 @@ import { expect } from 'chai';
 import { ObjectId } from 'mongodb';
 import request from 'supertest';
 import { connect, disconnect } from '../../../db';
-import { IUserObject } from '../../../models/User';
+import { IUser } from '../../../models/User';
 import userRouter from '../../../routes/userRoute';
+import { PopulatedDoc } from 'mongoose';
+import { IDialect } from '../../../models/Dialect';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
@@ -14,11 +16,11 @@ describe('/GET /users', () => {
       .then(() => {
         if (process.env.NODE_ENV == 'production') return done();
 
-        const user: IUserObject = {
+        const user: IUser = {
           firstName: 'taha',
           lastName: 'baz',
           gender: 'male',
-          dialect: new ObjectId(),
+          dialect: new ObjectId() as PopulatedDoc<IDialect>,
           score: 10,
           role: 'admin',
           age: 18,

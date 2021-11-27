@@ -1,6 +1,6 @@
-import { Document, model, Schema } from 'mongoose';
+import { model, Schema } from 'mongoose';
 
-interface ITest extends Document {
+interface ITest {
   name: string;
   age: number;
 }
