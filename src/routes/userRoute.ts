@@ -27,21 +27,7 @@ userRouter.get('/:id', async (req, res, next) => {
   return await exec(req, res, next);
 });
 
-userRouter.post('/', async (req, res, next) => {
-  try {
-    const data = req.body.data;
-    let dialect = await DialectService.getOne({ name: data.name })()();
-    if (!dialect) dialect = await DialectService.createOne({ name: data.dialect })();
-    data.dialect = dialect._id;
-    console.log(dialect);
-    const exec = UserService.createOne(data);
-    const user = await exec();
-    req.body.user = { _id: user._id, role: user.role };
-    next();
-  } catch (e) {
-    next(e);
-  }
-});
+userRouter.post('/', UserController.createOne);
 
 userRouter.use(AuthController);
 
