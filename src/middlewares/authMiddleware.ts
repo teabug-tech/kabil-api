@@ -24,8 +24,8 @@ export const userAuth = (req: Request, res: Response, next: NextFunction) => {
     if (!token) {
       token = req.headers['authorization'].split(' ')[1];
     }
-    const { role } = jwt.verify(token, process.env.JWT_SECRET);
-    if (role != 'user') throw new Error('not allowed');
+    const user = jwt.verify(token, process.env.JWT_SECRET);
+    if (user.role != 'user') throw new Error('not allowed');
     next();
   } catch (e) {
     next(e);
