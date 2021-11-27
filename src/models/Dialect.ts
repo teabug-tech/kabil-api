@@ -11,11 +11,7 @@ const dialectSchema = new Schema<IDialect>({
   name: {
     type: String,
     required: true,
-  },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
+    unique: true,
   },
 });
 
