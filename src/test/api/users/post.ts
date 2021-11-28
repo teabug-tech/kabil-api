@@ -26,7 +26,7 @@ describe('POST /users', () => {
 
   it('Creates a new user', (done) => {
     if (process.env.NODE_ENV == 'production') return done();
-    const user: IUser = {
+    const user = {
       firstName: 'taha',
       lastName: 'baz',
       gender: 'male',

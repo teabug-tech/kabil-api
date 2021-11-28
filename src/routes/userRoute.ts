@@ -11,9 +11,10 @@ dotenv.config();
 
 let userRouter = Router();
 
-if (process.env.NODE_ENV == 'test') userRouter = express();
-
-userRouter.use(express.json());
+if (process.env.NODE_ENV == 'test') {
+  userRouter = express();
+  userRouter.use(express.json());
+}
 
 userRouter.get('/', async (req, res, next) => {
   const select = UserController.getMany({ ...req.query });
@@ -29,12 +30,12 @@ userRouter.get('/:id', async (req, res, next) => {
 
 userRouter.post('/', UserController.createOne);
 
-userRouter.use(AuthController);
-
 userRouter.delete('/', UserController.deleteOne);
 
 userRouter.put('/', UserController.updateOne);
 
-// if (process.env.NODE_ENV == 'test') userRouter.use(errorMiddleware);
+if (process.env.NODE_ENV == 'test') userRouter.use(errorMiddleware);
+
+userRouter.use(AuthController);
 
 export default userRouter;

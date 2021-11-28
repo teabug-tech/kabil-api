@@ -4,11 +4,10 @@ import { NextFunction, Request, Response } from 'express';
 
 dotenv.config();
 export default (req: Request, res: Response, next: NextFunction) => {
-  console.log('signing in a new token');
   try {
     const token = jwt.sign({ ...req.body.user }, process.env.JWT_SECRET);
     res.cookie('JWT', token);
-    return res.json({ success: true, message: token });
+    return res.json({ success: true, message: req.body.user });
   } catch (e) {
     next(e);
   }
