@@ -13,11 +13,6 @@ const domainSchema = new Schema<IDomain>({
     required: true,
     unique: true,
   },
-  user: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-    required: true,
-  },
 });
 
 const domainModel = model('domain', domainSchema);
