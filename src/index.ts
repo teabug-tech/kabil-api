@@ -4,13 +4,13 @@ import { connect } from './db';
 import * as dotenv from 'dotenv';
 import errorMiddleware from './middlewares/errorMiddleware';
 import testRouter from './routes/testRoute';
-import { adminAuth, userAuth } from './middlewares/authMiddleware';
-import AuthController from './controllers/AuthController';
+import { userAuth } from './middlewares/authMiddleware';
 import cookieParser from 'cookie-parser';
 import googleAuthRouter from './routes/googleAuthRoute';
 import facebookAuthRouter from './routes/facebookAuthRoute';
 import userRouter from './routes/userRoute';
 import ParentTextRouter from './routes/parentTextRoute';
+import childTextRouter from './routes/childTextRoute';
 
 dotenv.config();
 const app = express();
@@ -37,7 +37,8 @@ app.use('/auth', facebookAuthRouter);
 
 app.use('/test', testRouter);
 
-app.use('/text', ParentTextRouter);
+app.use('/parent/text', ParentTextRouter);
+app.use('/child/texts', childTextRouter);
 
 app.use(userAuth);
 
