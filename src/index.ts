@@ -10,6 +10,7 @@ import cookieParser from 'cookie-parser';
 import googleAuthRouter from './routes/googleAuthRoute';
 import facebookAuthRouter from './routes/facebookAuthRoute';
 import userRouter from './routes/userRoute';
+import ParentTextRouter from './routes/parentTextRoute';
 
 dotenv.config();
 const app = express();
@@ -35,6 +36,8 @@ app.use('/auth', googleAuthRouter);
 app.use('/auth', facebookAuthRouter);
 
 app.use('/test', testRouter);
+
+app.use('/text', ParentTextRouter);
 
 app.use(userAuth);
 
