@@ -37,7 +37,7 @@ app.use('/auth', facebookAuthRouter);
 
 app.use('/test', testRouter);
 
-app.use('/parent/text', ParentTextRouter);
+app.use('/parent/texts', ParentTextRouter);
 app.use('/child/texts', childTextRouter);
 
 app.use(userAuth);
