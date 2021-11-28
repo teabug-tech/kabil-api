@@ -45,7 +45,10 @@ const userSchema = new Schema<IUser>({
     default: 'user',
     enum: ['admin', 'user'],
   },
-  password: String,
+  password: {
+    type: String,
+    required: true,
+  },
 });
 
 const userModel = model<IUser>('user', userSchema);
