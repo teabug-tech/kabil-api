@@ -34,6 +34,7 @@ describe('POST /users', () => {
       score: 10,
       role: 'admin',
       age: 18,
+      password: '123456',
     };
 
     request(userRouter)
@@ -64,6 +65,7 @@ describe('POST /users', () => {
       score: 10,
       role: 'admin',
       age: 18,
+      password: '123456',
     };
 
     request(userRouter)

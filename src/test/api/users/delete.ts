@@ -23,6 +23,7 @@ describe('Delete /user', () => {
           score: 10,
           role: 'admin',
           age: 18,
+          password: '123456',
         };
         request(userRouter)
           .post('/')
