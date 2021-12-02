@@ -11,7 +11,6 @@ export const handleDuplicateKeyError = (err: MongoServerError, res: Response) =>
 };
 
 export const handleValidationError = (err: Error.ValidationError, res: Response) => {
-  console.log(err.errors);
   const errors = Object.values(err.errors).map((el: Error.ValidatorError) => el.message);
   const fields = Object.values(err.errors).map((el: Error.ValidatorError) => el.path);
   const code = 400;
