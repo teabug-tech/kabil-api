@@ -11,9 +11,9 @@ export default {
       let dialect = await DialectService.getOne({ name: data.name })()();
       if (!dialect) dialect = await DialectService.createOne({ name: data.dialect })();
       data.dialect = dialect._id;
-      console.log(dialect);
       const exec = UserService.createOne(data);
       const user = await exec();
+      res.status(201);
       req.body.user = { _id: user._id, role: user.role };
       next();
     } catch (e) {
