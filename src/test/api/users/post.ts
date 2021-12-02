@@ -46,7 +46,7 @@ describe('POST /users', () => {
         expect(body).to.have.property('message');
         expect(body).to.have.property('success');
         expect(body.success).to.be.true;
-        expect(body.message).to.have.keys([...Object.keys(user), '__v', '_id']);
+        expect(body.message).to.have.keys('role', '_id');
         id = body.message._id;
         done();
       })
