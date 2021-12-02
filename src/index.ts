@@ -11,6 +11,7 @@ import facebookAuthRouter from './routes/facebookAuthRoute';
 import userRouter from './routes/userRoute';
 import ParentTextRouter from './routes/parentTextRoute';
 import childTextRouter from './routes/childTextRoute';
+import { IUser } from './models/User';
 
 dotenv.config();
 const app = express();
@@ -37,10 +38,9 @@ app.use('/auth', facebookAuthRouter);
 
 app.use('/test', testRouter);
 
+app.use(userAuth);
 app.use('/parent/texts', ParentTextRouter);
 app.use('/child/texts', childTextRouter);
-
-app.use(userAuth);
 
 app.get('/hello', (req, res) => {
   return res.end('hello world');

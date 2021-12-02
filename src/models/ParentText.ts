@@ -1,8 +1,9 @@
-import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
+import { Condition, Model, model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
+import ArabicScriptService from '../services/ArabicScriptService';
 import { IChildText } from './ChildText';
 import { IDialect } from './Dialect';
 import { IDomain } from './Domain';
-import { IScript } from './Scripts';
+import { IScript, latinScriptModel } from './Scripts';
 import { IVoice } from './Voice';
 
 interface IParentText {
@@ -53,6 +54,15 @@ const parentTextSchema = new Schema<IParentText>({
     default: false,
   },
 });
+
+const validatRef = (model: Model<any>) => async (ref: Condition<ObjectId>) => await model.exists({ _id: ref });
+
+const Refvalidator = (model: Model<any>) => async (value: Condition<ObjectId>) => {
+  const validate = validatRef(model);
+  return await validate(value);
+};
+
+// parentTextSchema.path('latinScript').validate(Refvalidator(latinScriptModel), 'invalid references');
 
 parentTextSchema.post('findOneAndUpdate', async function (doc: IParentText) {
   if (doc.latinScript && doc.arabicScript && doc.voice && doc.gender && doc.dialect && doc.domain) {
