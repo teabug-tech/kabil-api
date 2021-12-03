@@ -1,10 +1,8 @@
-import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
-import { IUser } from './User';
-
+import { model, ObjectId, Schema, Types } from 'mongoose';
 interface IVoice {
   _id?: ObjectId;
   url: string;
-  user: PopulatedDoc<IUser>;
+  user: Types.ObjectId;
 }
 
 const voiceSchema = new Schema<IVoice>({

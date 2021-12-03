@@ -1,13 +1,11 @@
-import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
-import { IDialect } from './Dialect';
-
+import { model, Schema, Types } from 'mongoose';
 export interface IUser {
-  _id?: ObjectId;
+  _id?: Types.ObjectId;
   firstName: string;
   lastName: string;
   gender: string;
   age: number;
-  dialect: PopulatedDoc<IDialect>;
+  dialect: Types.ObjectId;
   score: number;
   role: 'guest' | 'admin' | 'user';
   password?: string;

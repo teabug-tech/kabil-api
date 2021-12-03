@@ -1,10 +1,9 @@
-import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
-import { IUser } from './User';
+import { model, ObjectId, Schema, Types } from 'mongoose';
 
 interface IScript {
   _id?: ObjectId;
   script: string;
-  user: PopulatedDoc<IUser>;
+  user: Types.ObjectId;
 }
 
 const scriptSchema = new Schema<IScript>({

@@ -1,19 +1,13 @@
-import { model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
-import { IDialect } from './Dialect';
-import { IDomain } from './Domain';
-import { IParentText } from './ParentText';
-import { IScript } from './Scripts';
-import { IVoice } from './Voice';
-
+import { model, ObjectId, Schema, Types } from 'mongoose';
 interface IChildText {
   _id?: ObjectId;
-  arabicScript?: PopulatedDoc<IScript>;
-  latinScript?: PopulatedDoc<IScript>;
-  voice?: PopulatedDoc<IVoice>;
-  domain?: PopulatedDoc<IDomain>;
-  dialect?: PopulatedDoc<IDialect>;
+  arabicScript?: Types.ObjectId;
+  latinScript?: Types.ObjectId;
+  voice?: Types.ObjectId;
+  domain?: Types.ObjectId;
+  dialect?: Types.ObjectId;
   gender?: 'male' | 'female';
-  parent: PopulatedDoc<IParentText>;
+  parent: Types.ObjectId;
 }
 
 const childTextSchema = new Schema<IChildText>({

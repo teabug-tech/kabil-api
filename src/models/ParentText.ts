@@ -1,20 +1,15 @@
-import { Condition, Model, model, ObjectId, PopulatedDoc, Schema } from 'mongoose';
-import ArabicScriptService from '../services/ArabicScriptService';
-import { IChildText } from './ChildText';
-import { IDialect } from './Dialect';
-import { IDomain } from './Domain';
-import { IScript, latinScriptModel } from './Scripts';
-import { IVoice } from './Voice';
+import { Condition, Model, model, ObjectId, Schema, Types } from 'mongoose';
+import domainModel from './Domain';
 
 interface IParentText {
   _id?: ObjectId;
-  arabicScript?: PopulatedDoc<IScript>;
-  latinScript?: PopulatedDoc<IScript>;
-  voice?: PopulatedDoc<IVoice>;
-  domain?: PopulatedDoc<IDomain>;
-  dialect?: PopulatedDoc<IDialect>;
+  arabicScript?: Types.ObjectId;
+  latinScript?: Types.ObjectId;
+  voice?: Types.ObjectId;
+  domain?: Types.ObjectId;
+  dialect?: Types.ObjectId;
   gender?: 'male' | 'female';
-  childTexts?: PopulatedDoc<Array<IChildText>>;
+  childTexts?: Types.ObjectId;
   isCompleted?: true | false;
 }
 
@@ -62,6 +57,7 @@ const Refvalidator = (model: Model<any>) => async (value: Condition<ObjectId>) =
   return await validate(value);
 };
 
+parentTextSchema.path('domain').validate(Refvalidator(domainModel), 'invalid references');
 // parentTextSchema.path('latinScript').validate(Refvalidator(latinScriptModel), 'invalid references');
 
 parentTextSchema.post('findOneAndUpdate', async function (doc: IParentText) {
