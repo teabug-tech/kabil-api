@@ -12,24 +12,23 @@ import controller from '../shared/controller';
 import { IRequest } from '../types';
 
 const services = {
-  latinScript: LatinScriptService,
-  arabicScript: ArabicScriptService,
-  voice: VoiceService,
-  domain: DomainService,
+  latinScript: async (data) => await LatinScriptService.createOne({ user: data.user, script: data.latinScript })(),
+  arabicScript: async (data) => await ArabicScriptService.createOne({ user: data.user, script: data.arabicScript })(),
+  voice: async (data) => await VoiceService.createOne({ user: data.user, url: data.voice })(),
+  domain: async (data) => await DomainService.createOne({ user: data.user, name: data.bname })(),
 };
 
 type Ops = keyof typeof services;
 type Data = IScript | IVoice | IDomain;
 
 const applyOp = (op: Ops) => async (data: IScript | IVoice | IDomain) => {
-  const res = await services[op].createOne(data)();
+  const res = await services[op](data);
   return res._id;
 };
 
 const makeParentObject = async (body: IParentText, user) => {
   const parent = { ...body };
   for (const key in body) {
-    console.log(key);
     if (key in services) {
       const getId = applyOp(key as Ops);
       parent[key] = await getId({ user: user._id, [key]: body[key] } as Data);
