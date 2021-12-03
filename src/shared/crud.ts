@@ -29,7 +29,7 @@ const getAll =
 
 const createOne =
   <T>(model: Model<T>) =>
-  (data: AnyObject | AnyKeys<T>) =>
+  (data: AnyKeys<T>) =>
   async () =>
     await model.create(data);
 
