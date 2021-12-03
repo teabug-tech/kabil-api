@@ -1,7 +1,7 @@
-import { model, ObjectId, Schema, Types } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 
 interface IScript {
-  _id?: ObjectId;
+  _id?: Types.ObjectId;
   script: string;
   user: Types.ObjectId;
 }

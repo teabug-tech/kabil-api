@@ -1,6 +1,6 @@
-import { model, ObjectId, Schema, Types } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 interface IChildText {
-  _id?: ObjectId;
+  _id?: Types.ObjectId;
   arabicScript?: Types.ObjectId;
   latinScript?: Types.ObjectId;
   voice?: Types.ObjectId;

@@ -1,8 +1,8 @@
-import { Condition, Model, model, ObjectId, Schema, Types } from 'mongoose';
+import { Model, model, Schema, Types } from 'mongoose';
 import domainModel from './Domain';
 
 interface IParentText {
-  _id?: ObjectId;
+  _id?: Types.ObjectId;
   arabicScript?: Types.ObjectId;
   latinScript?: Types.ObjectId;
   voice?: Types.ObjectId;
@@ -50,9 +50,9 @@ const parentTextSchema = new Schema<IParentText>({
   },
 });
 
-const validatRef = (model: Model<any>) => async (ref: Condition<ObjectId>) => await model.exists({ _id: ref });
+const validatRef = (model: Model<any>) => async (ref: Types.ObjectId) => await model.exists({ _id: ref });
 
-const Refvalidator = (model: Model<any>) => async (value: Condition<ObjectId>) => {
+const Refvalidator = (model: Model<any>) => async (value: Types.ObjectId) => {
   const validate = validatRef(model);
   return await validate(value);
 };

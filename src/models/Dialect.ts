@@ -1,6 +1,6 @@
-import { model, ObjectId, Schema, Types } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 interface IDialect {
-  _id?: ObjectId;
+  _id?: Types.ObjectId;
   name: string;
   user: Types.ObjectId;
 }

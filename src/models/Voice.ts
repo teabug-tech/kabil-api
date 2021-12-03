@@ -1,6 +1,6 @@
-import { model, ObjectId, Schema, Types } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 interface IVoice {
-  _id?: ObjectId;
+  _id?: Types.ObjectId;
   url: string;
   user: Types.ObjectId;
 }
