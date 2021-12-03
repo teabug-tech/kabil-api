@@ -18,7 +18,7 @@ arabicScriptRouter.get('/', async (req, res, next) => {
 });
 
 arabicScriptRouter.get('/:id', async (req, res, next) => {
-  const select = ArabicScriptController.getOne({ _id: req.params.id as Condition<ObjectId> });
+  const select = ArabicScriptController.getOne({ _id: req.params.id });
   const exec = select('script user');
   return await exec(req, res, next);
 });
