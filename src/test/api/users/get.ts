@@ -4,7 +4,7 @@ import request from 'supertest';
 import { connect, disconnect } from '../../../db';
 import { IUser } from '../../../models/User';
 import userRouter from '../../../routes/userRoute';
-import { PopulatedDoc } from 'mongoose';
+import { PopulatedDoc, Types } from 'mongoose';
 import { IDialect } from '../../../models/Dialect';
 import * as dotenv from 'dotenv';
 
@@ -20,7 +20,7 @@ describe('/GET /users', () => {
           firstName: 'taha',
           lastName: 'baz',
           gender: 'male',
-          dialect: new ObjectId() as PopulatedDoc<IDialect>,
+          dialect: new ObjectId() as Types.ObjectId,
           score: 10,
           role: 'admin',
           age: 18,

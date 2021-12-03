@@ -5,7 +5,7 @@ import request from 'supertest';
 import userRouter from '../../../routes/userRoute';
 import { IUser } from '../../../models/User';
 import { ObjectId } from 'mongodb';
-import { PopulatedDoc } from 'mongoose';
+import { PopulatedDoc, Types } from 'mongoose';
 import { IDialect } from '../../../models/Dialect';
 
 dotenv.config();
@@ -19,7 +19,7 @@ describe('Update /user', () => {
           firstName: 'chi7ed',
           lastName: 'baz',
           gender: 'male',
-          dialect: new ObjectId() as PopulatedDoc<IDialect>,
+          dialect: new ObjectId() as Types.ObjectId,
           score: 10,
           role: 'admin',
           age: 18,
