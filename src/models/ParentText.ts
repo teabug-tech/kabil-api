@@ -1,5 +1,7 @@
 import { Model, model, Schema, Types } from 'mongoose';
-import domainModel from './Domain';
+import ParentTextService from '../services/ParentTextService';
+import { Refvalidator } from '../shared/existValidator';
+import domainModel, { IDomain } from './Domain';
 
 interface IParentText {
   _id?: Types.ObjectId;
@@ -9,7 +11,7 @@ interface IParentText {
   domain?: Types.ObjectId;
   dialect?: Types.ObjectId;
   gender?: 'male' | 'female';
-  childTexts?: Types.ObjectId;
+  childTexts?: [Types.ObjectId];
   isCompleted?: true | false;
 }
 
@@ -50,19 +52,18 @@ const parentTextSchema = new Schema<IParentText>({
   },
 });
 
-const validatRef = (model: Model<any>) => async (ref: Types.ObjectId) => await model.exists({ _id: ref });
-
-const Refvalidator = (model: Model<any>) => async (value: Types.ObjectId) => {
-  const validate = validatRef(model);
-  return await validate(value);
-};
-
 parentTextSchema.path('domain').validate(Refvalidator(domainModel), 'invalid references');
-// parentTextSchema.path('latinScript').validate(Refvalidator(latinScriptModel), 'invalid references');
 
 parentTextSchema.post('findOneAndUpdate', async function (doc: IParentText) {
   if (doc.latinScript && doc.arabicScript && doc.voice && doc.gender && doc.dialect && doc.domain) {
-    await parentTextModel.updateOne({ _id: doc._id }, { isCompleted: true }, { new: true });
+    await ParentTextService.updateOne({ _id: doc._id })({ isCompleted: true })({ new: true })();
+  }
+});
+
+parentTextSchema.post('save', async function (doc: IParentText) {
+  console.log('hey');
+  if (doc.latinScript && doc.arabicScript && doc.voice && doc.gender && doc.dialect && doc.domain) {
+    await ParentTextService.updateOne({ _id: doc._id })({ isCompleted: true })({ new: true })();
   }
 });
 
