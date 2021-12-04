@@ -2,7 +2,6 @@ import express, { Router } from 'express';
 import ParentTextController from '../controllers/ParentTextController';
 // import errorMiddleware from '../middlewares/errorMiddleware';
 import * as dotenv from 'dotenv';
-import parentTextModel from '../models/ParentText';
 
 dotenv.config();
 
