@@ -1,9 +1,13 @@
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
+import { IDialect } from '../models/Dialect';
+import { IDomain } from '../models/Domain';
 import parentTextModel, { IParentText } from '../models/ParentText';
 import { IScript } from '../models/Scripts';
 import { IVoice } from '../models/Voice';
 import ArabicScriptService from '../services/ArabicScriptService';
+import DialectService from '../services/DialectService';
+import DomainService from '../services/DomainService';
 import LatinScriptService from '../services/LatinScriptService';
 import ParentTextService from '../services/ParentTextService';
 import VoiceService from '../services/VoiceService';
@@ -11,12 +15,14 @@ import controller from '../shared/controller';
 import { IRequest } from '../types';
 
 type Ops = keyof typeof services;
-type ParentRefs = IScript | IVoice;
+type ParentRefs = IScript | IVoice | IDomain | IDialect;
 
 const services = {
   latinScript: async (data) => await LatinScriptService.createOne({ user: data.user, script: data.latinScript })(),
   arabicScript: async (data) => await ArabicScriptService.createOne({ user: data.user, script: data.arabicScript })(),
   voice: async (data) => await VoiceService.createOne({ user: data.user, url: data.voice })(),
+  domain: async (data) => await DomainService.createOne({ name: data.domain })(),
+  dialect: async (data) => await DialectService.createOne({ name: data.dialect })(),
 };
 
 const applyOp = (op: Ops) => async (data: ParentRefs) => {
@@ -59,6 +65,7 @@ export default {
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
       const result = await exec();
+      console.log(parent);
       res.send(result);
     } catch (e) {
       next(e);
