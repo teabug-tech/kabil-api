@@ -24,15 +24,25 @@ const applyOp = (op: Ops) => async (data: ParentRefs) => {
   return res._id;
 };
 
-const makeParentObject = async (body: IParentText, user: Types.ObjectId) => {
-  const parent = { ...body };
-  for (const key in body) {
+const makeParentObject = async (data: IParentText, user: Types.ObjectId) => {
+  const parent = { ...data };
+  for (const key in data) {
     if (key in services) {
       const getId = applyOp(key as Ops);
-      parent[key] = await getId({ user, [key]: body[key] } as ParentRefs);
+      parent[key] = await getId({ user, [key]: data[key] } as ParentRefs);
     }
   }
   return parent;
+};
+
+const validateParentData = async (data: IParentText, id: Types.ObjectId) => {
+  const parentData = { ...data };
+  const parent = await ParentTextService.getOne({ _id: id })()();
+  for (const key in parentData) {
+    if (key in parent) {
+      throw new Error('Access denied');
+    }
+  }
 };
 
 export default {
@@ -49,6 +59,18 @@ export default {
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
       const result = await exec();
+      res.send(result);
+    } catch (e) {
+      next(e);
+    }
+  },
+  updateOne: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      const body = req.body.data;
+      const id = req.body.id as Types.ObjectId;
+      await validateParentData(body, id);
+      const parent = await makeParentObject(body, req.user._id);
+      const result = await ParentTextService.updateOne({ _id: id })({ ...parent })({ new: true })();
       res.send(result);
     } catch (e) {
       next(e);
