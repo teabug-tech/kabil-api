@@ -18,7 +18,7 @@ latinScriptRouter.get('/', async (req, res, next) => {
 });
 
 latinScriptRouter.get('/:id', async (req, res, next) => {
-  const select = LatinScriptController.getOne({ _id: req.params.id as Condition<ObjectId>});
+  const select = LatinScriptController.getOne({ _id: req.params.id });
   const exec = select('script user');
   return await exec(req, res, next);
 });
