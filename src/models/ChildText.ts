@@ -1,4 +1,10 @@
 import { model, Schema, Types } from 'mongoose';
+import ParentTextService from '../services/ParentTextService';
+import { Refvalidator } from '../shared/existValidator';
+import domainModel from './Domain';
+import parentTextModel from './ParentText';
+import { arabicScriptModel, latinScriptModel } from './Scripts';
+import voiceModel from './Voice';
 interface IChildText {
   _id?: Types.ObjectId;
   arabicScript?: Types.ObjectId;
@@ -46,6 +52,19 @@ const childTextSchema = new Schema<IChildText>({
     ref: 'parentText',
     required: true,
   },
+});
+
+childTextSchema.path('arabicScript').validate(Refvalidator(arabicScriptModel), 'Invalid Reference!');
+childTextSchema.path('latinScript').validate(Refvalidator(latinScriptModel), 'Invalid Reference!');
+childTextSchema.path('voice').validate(Refvalidator(voiceModel), 'Invalid Reference!');
+childTextSchema.path('domain').validate(Refvalidator(domainModel), 'Invalid Reference!');
+childTextSchema.path('parent').validate(Refvalidator(parentTextModel), 'Invalid Reference!');
+
+childTextSchema.post('save', async function (child: IChildText) {
+  const insertData = ParentTextService.updateOne({ _id: child.parent._id });
+  const insertOptions = insertData({ $push: { childTexts: child._id } });
+  const exec = insertOptions({ new: true });
+  console.log(await exec());
 });
 
 const childTextModel = model('ChildText', childTextSchema);
