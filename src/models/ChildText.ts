@@ -7,12 +7,12 @@ import { arabicScriptModel, latinScriptModel } from './Scripts';
 import voiceModel from './Voice';
 interface IChildText {
   _id?: Types.ObjectId;
-  arabicScript?: Types.ObjectId;
-  latinScript?: Types.ObjectId;
-  voice?: Types.ObjectId;
-  domain?: Types.ObjectId;
-  dialect?: Types.ObjectId;
-  gender?: 'male' | 'female';
+  arabicScript: Types.ObjectId;
+  latinScript: Types.ObjectId;
+  voice: Types.ObjectId;
+  domain: Types.ObjectId;
+  dialect: Types.ObjectId;
+  gender: 'male' | 'female';
   parent: Types.ObjectId;
 }
 
