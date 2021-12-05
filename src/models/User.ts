@@ -1,4 +1,6 @@
 import { model, Schema, Types } from 'mongoose';
+import { Refvalidator } from '../shared/existValidator';
+import dialectModel from './Dialect';
 export interface IUser {
   _id?: Types.ObjectId;
   firstName: string;
@@ -48,6 +50,8 @@ const userSchema = new Schema<IUser>({
     required: true,
   },
 });
+
+userSchema.path('user').validate(Refvalidator(dialectModel), 'invalid references');
 
 const userModel = model<IUser>('user', userSchema);
 
