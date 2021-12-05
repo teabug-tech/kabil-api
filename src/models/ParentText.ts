@@ -56,15 +56,15 @@ parentTextSchema.path('domain').validate(Refvalidator(domainModel), 'invalid ref
 
 parentTextSchema.post('findOneAndUpdate', async function (doc: IParentText) {
   if (doc.latinScript && doc.arabicScript && doc.voice && doc.gender && doc.dialect && doc.domain) {
-    await ParentTextService.updateOne({ _id: doc._id })({ isCompleted: true })({ new: true })();
+    await parentTextModel.updateOne({ _id: doc._id }, { isCompleted: true }, { new: true });
   }
 });
 
-parentTextSchema.post('save', async function (doc: IParentText) {
-  console.log('hey');
-  if (doc.latinScript && doc.arabicScript && doc.voice && doc.gender && doc.dialect && doc.domain) {
-    await ParentTextService.updateOne({ _id: doc._id })({ isCompleted: true })({ new: true })();
+parentTextSchema.pre('save', async function (next) {
+  if (this.latinScript && this.arabicScript && this.voice && this.gender && this.dialect && this.domain) {
+    this.isCompleted = true;
   }
+  next();
 });
 
 const parentTextModel = model('ParentText', parentTextSchema);
