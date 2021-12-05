@@ -51,7 +51,7 @@ const userSchema = new Schema<IUser>({
   },
 });
 
-userSchema.path('user').validate(Refvalidator(dialectModel), 'invalid references');
+userSchema.path('dialect').validate(Refvalidator(dialectModel), 'invalid references');
 
 const userModel = model<IUser>('user', userSchema);
 
