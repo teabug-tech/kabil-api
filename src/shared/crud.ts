@@ -17,10 +17,16 @@ const getMany =
 const getOneAndPopulate =
   <T>(model: Model<T>) =>
   (filter: FilterQuery<T>) =>
-  (populateOptions: PopulateOptions) =>
+  (fieldsToPopulate: Array<string>) =>
   (arg?: object | string | Array<string>) =>
-  async () =>
-    await model.findOne(filter).select(arg).lean().populate(populateOptions).exec();
+  async () => {
+    let res = model.findOne(filter);
+    fieldsToPopulate.forEach((v) => {
+      console.log(v);
+      res = res.populate(v);
+    });
+    return await res.select(arg).lean().exec();
+  };
 
 const getAll =
   <T>(model: Model<T>) =>
