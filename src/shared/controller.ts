@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { FilterQuery } from 'mongoose';
+import { FilterQuery, PopulateOptions } from 'mongoose';
 
 type Filter<T> = FilterQuery<T>;
 
@@ -11,6 +11,9 @@ type GetAllFn<U> = () => Promise<U[]>;
 type CreateOneFn<U> = (data: object) => () => Promise<U>;
 type UpdateOneFn<T, U> = (filter: Filter<T>) => (data: object) => (options?: object) => () => Promise<U>;
 type DeleteOneFn<T, U> = (filter: Filter<T>) => () => Promise<U>;
+type GetOneAndPopulateFn<T, U> = (
+  filter: Filter<T>,
+) => (fieldsToPopulate: Array<string>) => (arg?: Arg) => () => Promise<U>;
 
 const getOne =
   <T, U>(getOne: GetOneFn<T, U>) =>
@@ -19,6 +22,23 @@ const getOne =
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const select = getOne(filter);
+      const exec = select(arg);
+      const doc = await exec();
+      return res.status(200).json({ success: true, message: doc });
+    } catch (e) {
+      next(e);
+    }
+  };
+
+const getOneAndPopulate =
+  <T, U>(getOneAndPopulate: GetOneAndPopulateFn<T, U>) =>
+  (filter: FilterQuery<T>) =>
+  (fieldsToPopulate: Array<string>) =>
+  (arg?: Arg) =>
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const populate = getOneAndPopulate(filter);
+      const select = populate(fieldsToPopulate);
       const exec = select(arg);
       const doc = await exec();
       return res.status(200).json({ success: true, message: doc });
@@ -106,6 +126,7 @@ interface crud<T, U> {
   createOne: CreateOneFn<U>;
   updateOne: UpdateOneFn<T, U>;
   deleteOne: DeleteOneFn<T, U>;
+  getOneAndPopulate: GetOneAndPopulateFn<T, U>;
 }
 
 export default <T, U>(crud: crud<T, U>) => ({
@@ -115,4 +136,5 @@ export default <T, U>(crud: crud<T, U>) => ({
   createOne: createOne(crud.createOne),
   updateOne: updateOne(crud.updateOne),
   deleteOne: deleteOne(crud.deleteOne),
+  getOneAndPopulate: getOneAndPopulate(crud.getOneAndPopulate),
 });
