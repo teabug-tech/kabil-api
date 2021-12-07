@@ -18,7 +18,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   try {
     const user = req.body.user;
 
-    const userDoc = await UserService.getOne({ email: user.email })()();
+    const userDoc = await UserService.getOneAndPopulate({ email: user.email })(['dialect'])()();
     if (!userDoc) throw new Error('invalid credentials!');
     if (userDoc.password !== user.password) throw new Error('invalid credentials');
     return res.json({ success: true, message: userDoc });
