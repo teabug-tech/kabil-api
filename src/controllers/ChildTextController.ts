@@ -1,5 +1,6 @@
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
+import childTextModel from '../models/ChildText';
 import ArabicScriptService from '../services/ArabicScriptService';
 import ChildTextService from '../services/ChildTextService';
 import DialectService from '../services/DialectService';
@@ -8,6 +9,7 @@ import LatinScriptService from '../services/LatinScriptService';
 import ParentTextService from '../services/ParentTextService';
 import VoiceService from '../services/VoiceService';
 import controller from '../shared/controller';
+import { makeLookupObjects } from '../shared/helpers';
 import { IChildData, IChildText, IParentText, IRequest, Refs } from '../types';
 
 type Ops = keyof typeof services;
@@ -50,6 +52,18 @@ export default {
       const exec = ChildTextService.createOne(child);
       const createdChild = await exec();
       return res.send(createdChild);
+    } catch (e) {
+      next(e);
+    }
+  },
+  getOne: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
+      const text = await childTextModel
+        .aggregate([...lookupObjects])
+        .sample(1)
+        .exec();
+      res.send(text);
     } catch (e) {
       next(e);
     }
