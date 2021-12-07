@@ -87,6 +87,14 @@ export type GetOneAndPopulateFn<T, U> = (
   filter: Filter<T>,
 ) => (fieldsToPopulate: Array<string>) => (arg?: Arg) => () => Promise<U>;
 
+export interface Lookup {
+  $lookup: {
+    from: string;
+    localField: string;
+    foreignField: string;
+    as: string;
+  };
+}
 export interface crud<T, U> {
   getOne: GetOneFn<T, U>;
   getMany: GetManyFn<T, U>;
