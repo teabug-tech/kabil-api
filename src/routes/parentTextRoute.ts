@@ -1,9 +1,7 @@
 import express, { Router } from 'express';
 import ParentTextController from '../controllers/ParentTextController';
-// import errorMiddleware from '../middlewares/errorMiddleware';
 import * as dotenv from 'dotenv';
 import { IRequest } from '../types';
-import { PopulateOptions } from 'mongoose';
 
 dotenv.config();
 
@@ -20,5 +18,6 @@ ParentTextRouter.get('/:id', async (req: IRequest, res, next) => {
     'dialect',
   ])()(req, res, next);
 });
+ParentTextRouter.get('/', ParentTextController.getOne);
 
 export default ParentTextRouter;
