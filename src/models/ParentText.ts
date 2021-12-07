@@ -1,19 +1,7 @@
-import { Model, model, Schema, Types } from 'mongoose';
-import ParentTextService from '../services/ParentTextService';
+import { model, Schema } from 'mongoose';
 import { Refvalidator } from '../shared/existValidator';
-import domainModel, { IDomain } from './Domain';
-
-interface IParentText {
-  _id?: Types.ObjectId;
-  arabicScript?: Types.ObjectId;
-  latinScript?: Types.ObjectId;
-  voice?: Types.ObjectId;
-  domain?: Types.ObjectId;
-  dialect?: Types.ObjectId;
-  gender?: 'male' | 'female';
-  childTexts?: [Types.ObjectId];
-  isCompleted?: true | false;
-}
+import { IParentText } from '../types';
+import domainModel from './Domain';
 
 const parentTextSchema = new Schema<IParentText>({
   arabicScript: {
@@ -69,5 +57,4 @@ parentTextSchema.pre('save', async function (next) {
 
 const parentTextModel = model('ParentText', parentTextSchema);
 
-export { IParentText };
 export default parentTextModel;

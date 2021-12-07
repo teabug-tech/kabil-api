@@ -1,11 +1,5 @@
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
-import { IChildText } from '../models/ChildText';
-import { IDialect } from '../models/Dialect';
-import { IDomain } from '../models/Domain';
-import { IParentText } from '../models/ParentText';
-import { IScript } from '../models/Scripts';
-import { IVoice } from '../models/Voice';
 import ArabicScriptService from '../services/ArabicScriptService';
 import ChildTextService from '../services/ChildTextService';
 import DialectService from '../services/DialectService';
@@ -14,10 +8,9 @@ import LatinScriptService from '../services/LatinScriptService';
 import ParentTextService from '../services/ParentTextService';
 import VoiceService from '../services/VoiceService';
 import controller from '../shared/controller';
-import { IChildData, IRequest } from '../types';
+import { IChildData, IChildText, IParentText, IRequest, Refs } from '../types';
 
 type Ops = keyof typeof services;
-type Refs = IScript | IVoice | IDomain | IDialect;
 
 const services = {
   latinScript: async (data) => await LatinScriptService.createOne({ user: data.user, script: data.latinScript })(),

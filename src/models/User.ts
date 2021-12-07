@@ -1,17 +1,7 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { Refvalidator } from '../shared/existValidator';
+import { IUser } from '../types';
 import dialectModel from './Dialect';
-export interface IUser {
-  _id?: Types.ObjectId;
-  firstName: string;
-  lastName: string;
-  gender: string;
-  age: number;
-  dialect: Types.ObjectId;
-  score: number;
-  role: 'guest' | 'admin' | 'user';
-  password?: string;
-}
 
 const userSchema = new Schema<IUser>({
   firstName: {

@@ -1,9 +1,5 @@
-import { model, Schema, Types } from 'mongoose';
-interface IDomain {
-  _id?: Types.ObjectId;
-  name: string;
-  user: Types.ObjectId;
-}
+import { model, Schema } from 'mongoose';
+import { IDomain } from '../types';
 
 const domainSchema = new Schema<IDomain>({
   name: {
@@ -15,5 +11,4 @@ const domainSchema = new Schema<IDomain>({
 
 const domainModel = model('domain', domainSchema);
 
-export { IDomain };
 export default domainModel;

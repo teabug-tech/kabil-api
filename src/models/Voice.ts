@@ -1,11 +1,7 @@
-import { model, Schema, Types } from 'mongoose';
+import { model, Schema } from 'mongoose';
 import { Refvalidator } from '../shared/existValidator';
+import { IVoice } from '../types';
 import userModel from './User';
-interface IVoice {
-  _id?: Types.ObjectId;
-  url: string;
-  user: Types.ObjectId;
-}
 
 const voiceSchema = new Schema<IVoice>({
   url: {
@@ -23,5 +19,4 @@ const voiceModel = model('voice', voiceSchema);
 
 voiceSchema.path('user').validate(Refvalidator(userModel), 'invalid references');
 
-export { IVoice };
 export default voiceModel;

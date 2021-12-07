@@ -1,9 +1,5 @@
-import { model, Schema, Types } from 'mongoose';
-interface IDialect {
-  _id?: Types.ObjectId;
-  name: string;
-  user: Types.ObjectId;
-}
+import { model, Schema } from 'mongoose';
+import { IDialect } from '../types';
 
 const dialectSchema = new Schema<IDialect>({
   name: {

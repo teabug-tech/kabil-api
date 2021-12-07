@@ -1,19 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
-import { FilterQuery, PopulateOptions } from 'mongoose';
-
-type Filter<T> = FilterQuery<T>;
-
-type Arg = string | object | string[];
-
-type GetOneFn<T, U> = (filter: Filter<T>) => (arg?: Arg) => () => Promise<U>;
-type GetManyFn<T, U> = (filter: Filter<T>) => (arg?: Arg) => () => Promise<U[]>;
-type GetAllFn<U> = () => Promise<U[]>;
-type CreateOneFn<U> = (data: object) => () => Promise<U>;
-type UpdateOneFn<T, U> = (filter: Filter<T>) => (data: object) => (options?: object) => () => Promise<U>;
-type DeleteOneFn<T, U> = (filter: Filter<T>) => () => Promise<U>;
-type GetOneAndPopulateFn<T, U> = (
-  filter: Filter<T>,
-) => (fieldsToPopulate: Array<string>) => (arg?: Arg) => () => Promise<U>;
+import { FilterQuery } from 'mongoose';
+import {
+  Arg,
+  CreateOneFn,
+  crud,
+  DeleteOneFn,
+  GetAllFn,
+  GetManyFn,
+  GetOneAndPopulateFn,
+  GetOneFn,
+  UpdateOneFn,
+} from '../types';
 
 const getOne =
   <T, U>(getOne: GetOneFn<T, U>) =>
@@ -118,16 +115,6 @@ const deleteOne =
       next(e);
     }
   };
-
-interface crud<T, U> {
-  getOne: GetOneFn<T, U>;
-  getMany: GetManyFn<T, U>;
-  getAll: GetAllFn<U>;
-  createOne: CreateOneFn<U>;
-  updateOne: UpdateOneFn<T, U>;
-  deleteOne: DeleteOneFn<T, U>;
-  getOneAndPopulate: GetOneAndPopulateFn<T, U>;
-}
 
 export default <T, U>(crud: crud<T, U>) => ({
   getOne: getOne(crud.getOne),

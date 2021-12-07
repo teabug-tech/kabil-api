@@ -1,20 +1,11 @@
 import { model, Schema, Types } from 'mongoose';
 import ParentTextService from '../services/ParentTextService';
 import { Refvalidator } from '../shared/existValidator';
+import { IChildText } from '../types';
 import domainModel from './Domain';
 import parentTextModel from './ParentText';
 import { arabicScriptModel, latinScriptModel } from './Scripts';
 import voiceModel from './Voice';
-interface IChildText {
-  _id?: Types.ObjectId;
-  arabicScript: Types.ObjectId;
-  latinScript: Types.ObjectId;
-  voice: Types.ObjectId;
-  domain: Types.ObjectId;
-  dialect: Types.ObjectId;
-  gender: 'male' | 'female';
-  parent: Types.ObjectId;
-}
 
 const childTextSchema = new Schema<IChildText>({
   arabicScript: {
@@ -69,5 +60,4 @@ childTextSchema.post('save', async function (child: IChildText) {
 
 const childTextModel = model('ChildText', childTextSchema);
 
-export { IChildText };
 export default childTextModel;

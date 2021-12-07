@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { NextFunction, Request, Response } from 'express';
-import { IUser } from '../models/User';
 import { IRequest } from '../types';
 
 dotenv.config();
