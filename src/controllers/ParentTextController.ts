@@ -1,6 +1,5 @@
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
-import childTextModel from '../models/ChildText';
 import parentTextModel from '../models/ParentText';
 import ArabicScriptService from '../services/ArabicScriptService';
 import DialectService from '../services/DialectService';
@@ -9,7 +8,9 @@ import LatinScriptService from '../services/LatinScriptService';
 import ParentTextService from '../services/ParentTextService';
 import VoiceService from '../services/VoiceService';
 import controller from '../shared/controller';
+import { makeLookupObjects } from '../shared/helpers';
 import { IParentText, IRequest, Refs } from '../types';
+import ChildTextController from './ChildTextController';
 
 export type Ops = keyof typeof services;
 
@@ -47,37 +48,21 @@ const validateParentData = async (data: Refs, id: Types.ObjectId) => {
   }
 };
 
-interface Lookup {
-  $lookup: {
-    from: string;
-    localField: string;
-    foreignField: string;
-    as: string;
-  };
-}
-
-const makeLookupObjects = (lookups: Array<string>): Array<Lookup> =>
-  lookups.map((l) => ({
-    $lookup: {
-      from: l.toLowerCase() + 's',
-      localField: l,
-      foreignField: '_id',
-      as: l,
-    },
-  }));
-
 export default {
   ...controller(ParentTextService),
-  getOne: async (req: IRequest, res: Response) => {
-    console.log(req.user);
-    const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
-    let text = await parentTextModel
-      .aggregate([...lookupObjects])
-      .match({ isCompleted: false })
-      .sample(1)
-      .exec();
-    if (!text.length) text = await childTextModel.aggregate().sample(1).exec();
-    res.send(text);
+  getOne: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
+      const text = await parentTextModel
+        .aggregate([...lookupObjects])
+        .match({ isCompleted: false })
+        .sample(1)
+        .exec();
+      if (!text.length) return await ChildTextController.getOne(req, res, next);
+      res.send(text);
+    } catch (e) {
+      next(e);
+    }
   },
   createOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
