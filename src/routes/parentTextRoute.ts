@@ -16,6 +16,8 @@ ParentTextRouter.get('/:id', async (req: IRequest, res, next) => {
     'arabicScript',
     'latinScript',
     'dialect',
+    'voice',
+    'domain',
   ])()(req, res, next);
 });
 ParentTextRouter.get('/', ParentTextController.getOne);
