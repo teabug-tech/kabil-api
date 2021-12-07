@@ -58,6 +58,7 @@ export interface IScript {
 
 export interface IUser {
   _id?: Types.ObjectId;
+  email: string;
   firstName: string;
   lastName: string;
   gender: string;
