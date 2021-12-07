@@ -4,6 +4,11 @@ import { IUser } from '../types';
 import dialectModel from './Dialect';
 
 const userSchema = new Schema<IUser>({
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   firstName: {
     type: String,
     required: true,
