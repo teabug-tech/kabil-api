@@ -1,6 +1,5 @@
 import * as dotenv from 'dotenv';
 import express, { Router } from 'express';
-import { Condition, ObjectId } from 'mongoose';
 import ArabicScriptController from '../controllers/ArabicScriptController';
 import errorMiddleware from '../middlewares/errorMiddleware';
 

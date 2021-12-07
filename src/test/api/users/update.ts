@@ -3,10 +3,9 @@ import { connect, disconnect } from '../../../db';
 import * as dotenv from 'dotenv';
 import request from 'supertest';
 import userRouter from '../../../routes/userRoute';
-import { IUser } from '../../../models/User';
 import { ObjectId } from 'mongodb';
-import { PopulatedDoc, Types } from 'mongoose';
-import { IDialect } from '../../../models/Dialect';
+import { Types } from 'mongoose';
+import { IUser } from '../../../types';
 
 dotenv.config();
 
@@ -16,6 +15,7 @@ describe('Update /user', () => {
     connect()
       .then(() => {
         const user: IUser = {
+          email: 'chi@email.com',
           firstName: 'chi7ed',
           lastName: 'baz',
           gender: 'male',

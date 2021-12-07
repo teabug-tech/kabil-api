@@ -1,4 +1,4 @@
-import { AnyKeys, AnyObject, FilterQuery, Model, PopulateOptions, QueryOptions, UpdateQuery } from 'mongoose';
+import { AnyKeys, FilterQuery, Model, QueryOptions, UpdateQuery } from 'mongoose';
 
 const getOne =
   <T>(model: Model<T>) =>

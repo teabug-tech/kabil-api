@@ -2,11 +2,10 @@ import { expect } from 'chai';
 import { ObjectId } from 'mongodb';
 import request from 'supertest';
 import { connect, disconnect } from '../../../db';
-import { IUser } from '../../../models/User';
 import userRouter from '../../../routes/userRoute';
-import { PopulatedDoc, Types } from 'mongoose';
-import { IDialect } from '../../../models/Dialect';
+import { Types } from 'mongoose';
 import * as dotenv from 'dotenv';
+import { IUser } from '../../../types';
 
 dotenv.config();
 let id = '6196283965516a598da99848';
@@ -17,6 +16,7 @@ describe('/GET /users', () => {
         if (process.env.NODE_ENV == 'production') return done();
 
         const user: IUser = {
+          email: 'sone@email.com',
           firstName: 'taha',
           lastName: 'baz',
           gender: 'male',

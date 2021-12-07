@@ -3,9 +3,7 @@ import { connect, disconnect } from '../../../db';
 import * as dotenv from 'dotenv';
 import request from 'supertest';
 import userRouter from '../../../routes/userRoute';
-import { IUser } from '../../../models/User';
-import { PopulatedDoc, Types } from 'mongoose';
-import { IDialect } from '../../../models/Dialect';
+import { Types } from 'mongoose';
 import { ObjectId } from 'mongodb';
 
 dotenv.config();
