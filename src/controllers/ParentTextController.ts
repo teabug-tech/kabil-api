@@ -1,31 +1,11 @@
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
 import parentTextModel from '../models/ParentText';
-import ArabicScriptService from '../services/ArabicScriptService';
-import DialectService from '../services/DialectService';
-import DomainService from '../services/DomainService';
-import LatinScriptService from '../services/LatinScriptService';
 import ParentTextService from '../services/ParentTextService';
-import VoiceService from '../services/VoiceService';
 import controller from '../shared/controller';
-import { makeLookupObjects } from '../shared/helpers';
+import { applyOp, makeLookupObjects, Ops, services } from '../shared/helpers';
 import { IParentText, IRequest, Refs } from '../types';
 import ChildTextController from './ChildTextController';
-
-export type Ops = keyof typeof services;
-
-const services = {
-  latinScript: async (data) => await LatinScriptService.createOne({ user: data.user, script: data.latinScript })(),
-  arabicScript: async (data) => await ArabicScriptService.createOne({ user: data.user, script: data.arabicScript })(),
-  voice: async (data) => await VoiceService.createOne({ user: data.user, url: data.voice })(),
-  domain: async (data) => await DomainService.createOne({ name: data.domain })(),
-  dialect: async (data) => await DialectService.createOne({ name: data.dialect })(),
-};
-
-const applyOp = (op: Ops) => async (data: Refs) => {
-  const res = await services[op](data);
-  return res._id;
-};
 
 const makeParentObject = async (data: Refs, user: Types.ObjectId) => {
   const parent = { ...data };
