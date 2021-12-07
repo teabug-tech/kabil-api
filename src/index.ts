@@ -11,7 +11,6 @@ import facebookAuthRouter from './routes/facebookAuthRoute';
 import userRouter from './routes/userRoute';
 import ParentTextRouter from './routes/parentTextRoute';
 import childTextRouter from './routes/childTextRoute';
-import { IUser } from './models/User';
 
 dotenv.config();
 const app = express();
