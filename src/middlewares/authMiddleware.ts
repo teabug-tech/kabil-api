@@ -22,7 +22,8 @@ export const adminAuth = (req: Request, res: Response, next: NextFunction) => {
 
 export const userAuth = (req: IRequest, res: Response, next: NextFunction) => {
   try {
-    let token = req.cookies['JWT'];
+    let token;
+    if (Object.prototype.hasOwnProperty.call(req, 'cookies')) token = req.cookies['JWT'];
     if (!token) {
       token = req.headers['authorization'].split(' ')[1];
     }
