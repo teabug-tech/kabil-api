@@ -22,6 +22,8 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     const userDoc = await UserService.getOneAndPopulate({ email: user.email })(['dialect'])()();
     if (!userDoc) throw new Error('invalid credentials!');
     if (!bcrypt.compareSync(user.password, userDoc.password)) throw new Error('invalid credentials');
+    const token = jwt.sign({ ...userDoc }, process.env.JWT_SECRET);
+    res.cookie('JWT', token);
     return res.json({ success: true, message: userDoc });
   } catch (e) {
     next(e);
