@@ -50,7 +50,6 @@ export default {
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
       const result = await exec();
-      console.log(parent);
       res.send(result);
     } catch (e) {
       next(e);
