@@ -1,28 +1,27 @@
 import { expect } from 'chai';
-import { ObjectId } from 'mongodb';
 import request from 'supertest';
 import { connect, disconnect } from '../../../db';
 import userRouter from '../../../routes/userRoute';
-import { Types } from 'mongoose';
 import * as dotenv from 'dotenv';
-import { IUser } from '../../../types';
 
 dotenv.config();
 let id = '6196283965516a598da99848';
+let userToken;
+
 describe('/GET /users', () => {
   before((done) => {
     connect()
       .then(() => {
         if (process.env.NODE_ENV == 'production') return done();
 
-        const user: IUser = {
+        const user = {
           email: 'sone@email.com',
           firstName: 'taha',
           lastName: 'baz',
           gender: 'male',
-          dialect: new ObjectId() as Types.ObjectId,
+          dialect: 'mrrakchi',
           score: 10,
-          role: 'admin',
+          role: 'user',
           age: 18,
           password: '123456',
         };
@@ -31,6 +30,12 @@ describe('/GET /users', () => {
           .send({ data: user })
           .then((res) => {
             id = res.body.message._id;
+            request(userRouter)
+              .post('/login')
+              .send({ user: { email: 'sone@email.com', password: '123456' } })
+              .then((res) => {
+                userToken = res.header['set-cookie'][0].split(';')[0].split('=')[1];
+              });
             done();
           });
       })
@@ -45,6 +50,7 @@ describe('/GET /users', () => {
   it('Gets all the users', (done) => {
     request(userRouter)
       .get('/')
+      .set('Authorization', 'Bearer ' + process.env.adminToken)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
@@ -59,6 +65,7 @@ describe('/GET /users', () => {
   it('Gets by filter', (done) => {
     request(userRouter)
       .get('/')
+      .set('Authorization', 'Bearer ' + process.env.adminToken)
       .query({ name: 'taha' })
       .expect('Content-Type', /json/)
       .expect(200)
@@ -78,6 +85,7 @@ describe('/GET /users', () => {
   it('Gets by id', (done) => {
     request(userRouter)
       .get(`/${id}`)
+      .set('Authorization', 'Bearer ' + userToken)
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {

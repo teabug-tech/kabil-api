@@ -28,11 +28,12 @@ describe('POST /users', () => {
       firstName: 'taha',
       lastName: 'baz',
       gender: 'male',
-      dialect: new ObjectId() as Types.ObjectId,
+      dialect: 'darija',
       score: 10,
       role: 'admin',
       age: 18,
       password: '123456',
+      email: 'someemail',
     };
 
     request(userRouter)
@@ -59,10 +60,11 @@ describe('POST /users', () => {
       firstName: 'taha',
       lastName: 'baz',
       gender: 'male',
-      dialect: new ObjectId(),
+      dialect: 'darija',
       score: 10,
       role: 'admin',
       age: 18,
+      email: 'someemail',
       password: '123456',
     };
 

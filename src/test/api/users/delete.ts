@@ -44,6 +44,7 @@ describe('Delete /user', () => {
   it('Deletes a user', (done) => {
     request(userRouter)
       .delete('/')
+      .set('Authorization', 'Bearer ' + process.env.adminToken)
       .send({ _id: id })
       .expect('Content-Type', /json/)
       .expect(200)

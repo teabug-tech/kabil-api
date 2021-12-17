@@ -3,25 +3,23 @@ import { connect, disconnect } from '../../../db';
 import * as dotenv from 'dotenv';
 import request from 'supertest';
 import userRouter from '../../../routes/userRoute';
-import { ObjectId } from 'mongodb';
-import { Types } from 'mongoose';
-import { IUser } from '../../../types';
 
 dotenv.config();
+
+let userToken;
 
 let id = 0;
 describe('Update /user', () => {
   before((done) => {
     connect()
       .then(() => {
-        const user: IUser = {
+        const user = {
           email: 'chi@email.com',
           firstName: 'chi7ed',
           lastName: 'baz',
           gender: 'male',
-          dialect: new ObjectId() as Types.ObjectId,
+          dialect: 'chi dielaect',
           score: 10,
-          role: 'admin',
           age: 18,
           password: '123456',
         };
@@ -30,7 +28,13 @@ describe('Update /user', () => {
           .send({ data: user })
           .then((res) => {
             id = res.body.message._id;
-            done();
+            request(userRouter)
+              .post('/login')
+              .send({ user: { email: 'chi@email.com', password: '123456' } })
+              .then((res) => {
+                userToken = res.header['set-cookie'][0].split(';')[0].split('=')[1];
+                done();
+              });
           });
       })
       .catch((e) => done(e));
@@ -48,7 +52,8 @@ describe('Update /user', () => {
     };
     request(userRouter)
       .put('/')
-      .send({ data, filter: { _id: id }, options: { new: true } })
+      .set('Authorization', 'Bearer ' + userToken)
+      .send({ data, filter: { id: id }, options: { new: true } })
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
