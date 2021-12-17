@@ -39,7 +39,7 @@ userRouter.get('/:id', userAuth, async (req: IRequest, res, next) => {
 
 userRouter.put('/', userAuth, async (req: IRequest, res, next) => {
   try {
-    req.body.filter = { _id: req.user._id };
+    if (req.body.filter.id != req.user._id) throw new Error('Invalid request');
     return await UserController.updateOne(req, res, next);
   } catch (e) {
     next(e);
