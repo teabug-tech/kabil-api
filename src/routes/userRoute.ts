@@ -37,9 +37,9 @@ userRouter.get('/:id', userAuth, async (req: IRequest, res, next) => {
   }
 });
 
-userRouter.put('/', async (req: IRequest, res, next) => {
+userRouter.put('/', userAuth, async (req: IRequest, res, next) => {
   try {
-    if (req.user._id.toString() !== req.params.id) throw new Error('Invalid request');
+    req.body.filter = { _id: req.user._id };
     return await UserController.updateOne(req, res, next);
   } catch (e) {
     next(e);
