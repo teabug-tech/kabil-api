@@ -8,7 +8,7 @@ dotenv.config();
 export default (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = jwt.sign({ ...req.body.user }, process.env.JWT_SECRET);
-    res.cookie('JWT', token);
+    res.cookie('JWT', token, { sameSite: 'none', secure: false });
     return res.json({ success: true, message: req.body.user });
   } catch (e) {
     next(e);
@@ -23,7 +23,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     if (!userDoc) throw new Error('invalid credentials!');
     if (!bcrypt.compareSync(user.password, userDoc.password)) throw new Error('invalid credentials');
     const token = jwt.sign({ ...userDoc }, process.env.JWT_SECRET);
-    res.cookie('JWT', token);
+    res.cookie('JWT', token, { sameSite: 'none', secure: false });
     return res.json({ success: true, message: userDoc });
   } catch (e) {
     next(e);
