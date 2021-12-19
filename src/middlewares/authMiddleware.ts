@@ -24,9 +24,11 @@ export const userAuth = (req: IRequest, res: Response, next: NextFunction) => {
   try {
     let token;
     if (Object.prototype.hasOwnProperty.call(req, 'cookies')) token = req.cookies['JWT'];
+    console.log(token);
     if (!token) {
-      token = req.headers['authorization'].split(' ')[1];
+      token = req.headers['authorization']?.split(' ')[1];
     }
+    if (!token) throw new Error('not allowed');
     const user = jwt.verify(token, process.env.JWT_SECRET);
     if (user.role != 'user') throw new Error('not allowed');
     req.user = user;
