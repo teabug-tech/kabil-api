@@ -22,12 +22,14 @@ export const adminAuth = (req: Request, res: Response, next: NextFunction) => {
 
 export const userAuth = (req: IRequest, res: Response, next: NextFunction) => {
   try {
+    console.log(req.headers);
     let token;
     if (Object.prototype.hasOwnProperty.call(req, 'cookies')) token = req.cookies['JWT'];
-    console.log(token);
     if (!token) {
       token = req.headers['authorization']?.split(' ')[1];
     }
+    if (!token) token = req.headers['jwt'];
+    console.log(token);
     if (!token) throw new Error('not allowed');
     const user = jwt.verify(token, process.env.JWT_SECRET);
     if (user.role != 'user') throw new Error('not allowed');
