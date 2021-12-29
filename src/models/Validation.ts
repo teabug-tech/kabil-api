@@ -5,16 +5,17 @@ import childTextModel from './ChildText';
 
 const validationSchema = new Schema<IValidation>({
   text: {
+    type: Schema.Types.ObjectId,
     ref: 'childText',
-    required: true,
   },
   answer: {
+    type: String,
     enum: ['yes', 'no'],
     required: true,
   },
 });
 
-validationSchema.path('childText').validate(Refvalidator(childTextModel), 'invalid references');
+validationSchema.path('text').validate(Refvalidator(childTextModel), 'invalid references');
 
 const validationModel = model('validation', validationSchema);
 
