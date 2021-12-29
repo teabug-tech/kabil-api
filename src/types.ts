@@ -69,6 +69,11 @@ export interface IUser {
   password?: string;
 }
 
+export interface IValidation {
+  _id?: Types.ObjectId;
+  text: Types.ObjectId;
+  answer: 'yes' | 'no';
+}
 export interface IVoice {
   _id?: Types.ObjectId;
   url: string;
