@@ -12,6 +12,7 @@ import userRouter from './routes/userRoute';
 import ParentTextRouter from './routes/parentTextRoute';
 import childTextRouter from './routes/childTextRoute';
 import cors from 'cors';
+import validationRouter from './routes/validationRoute';
 
 dotenv.config();
 const app = express();
@@ -34,6 +35,7 @@ const start = async () => {
 };
 
 app.use('/users', userRouter);
+app.use('/validations', validationRouter);
 
 app.use('/auth', googleAuthRouter);
 app.use('/auth', facebookAuthRouter);
