@@ -7,7 +7,7 @@ import multer from 'multer';
 const upload = multer({
   dest: 'uploads/',
   fileFilter: function (req, file, cb) {
-    if (file.mimetype != 'application/octet-stream') return cb(new Error('Something went wrong'));
+    if (file.mimetype != 'audio/mpeg') return cb(new Error('Something went wrong'));
 
     cb(null, true);
   },
