@@ -24,6 +24,7 @@ export default {
   ...controller(ChildTextService),
   createOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      if (req.file.filename != '') req.body.data.voice = req.file.path;
       const childData: IChildData = req.body.data;
       const parentId: Types.ObjectId = childData.parent;
       const parent = await ParentTextService.getOne({ _id: parentId })('-_id -childTexts')();
