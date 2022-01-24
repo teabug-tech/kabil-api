@@ -25,7 +25,7 @@ export default {
   createOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const body = req.body;
-      if (req.file.filename != '') body.voice = req.file.path;
+      if (req.file && req.file.filename != '') body.voice = req.file.path;
       const childData: IChildData = body;
       const parentId: Types.ObjectId = childData.parent;
       const parent = await ParentTextService.getOne({ _id: parentId })('-_id -childTexts')();

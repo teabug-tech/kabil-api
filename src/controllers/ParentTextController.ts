@@ -58,8 +58,10 @@ export default {
   },
   updateOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      const body = req.body.data;
-      const id = req.body.id as Types.ObjectId;
+      const body = req.body;
+      const id = body.id as Types.ObjectId;
+      console.log(body);
+      if (req.file && req.file.filename != '') body.voice = req.file.path;
       await validateParentData(body, id);
       const parent = await makeParentObject(body, req.user._id);
       const result = await ParentTextService.updateOne({ _id: id })({ ...parent })({ new: true })();
