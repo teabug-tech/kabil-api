@@ -5,7 +5,6 @@ const dialectSchema = new Schema<IDialect>({
   name: {
     type: String,
     required: true,
-    unique: true,
   },
 });
 
