@@ -33,7 +33,7 @@ export default {
   getCompleted: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       console.log('hello');
-      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
         .match({ isCompleted: true })
@@ -47,7 +47,8 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
+      console.log(lookupObjects);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
         .match({ isCompleted: false })
@@ -63,7 +64,7 @@ export default {
     try {
       const body = req.body;
       console.log('body:', body);
-      if (req.file && req.file.filename != '') body.voice = `localhost:4444/${req.file.filename}`;
+      if (req.file && req.file.filename != '') body.voice = `localhost:4444/uploads/${req.file.filename}`;
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
       const result = await exec();
