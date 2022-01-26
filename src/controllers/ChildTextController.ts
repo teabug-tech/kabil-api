@@ -30,7 +30,6 @@ export default {
       const parentId: Types.ObjectId = childData.parent;
       const parent = await ParentTextService.getOne({ _id: parentId })('-_id -childTexts')();
       const child: IChildText = await makeChildObject(childData, parent, req.user._id);
-      console.log(child);
       const exec = ChildTextService.createOne(child);
       const createdChild = await exec();
       return res.send(createdChild);

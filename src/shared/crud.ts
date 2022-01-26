@@ -22,7 +22,6 @@ const getOneAndPopulate =
   async () => {
     let res = model.findOne(filter);
     fieldsToPopulate.forEach((v) => {
-      console.log(v);
       res = res.populate(v);
     });
     return await res.select(arg).lean().exec();

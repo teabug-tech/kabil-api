@@ -5,7 +5,8 @@ import multer from 'multer';
 const upload = multer({
   dest: 'uploads/',
   fileFilter: function (req, file, cb) {
-    if (file.mimetype != 'audio/mp3') return cb(new Error('Something went wrong'));
+    console.log('FILE MIME:', file.mimetype);
+    if (file.mimetype != 'audio/mp3' && file.mimetype != 'audio/mpeg') return cb(new Error('Something went wrong'));
 
     cb(null, true);
   },
