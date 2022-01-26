@@ -47,6 +47,7 @@ export default {
   createOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const body = req.body;
+      console.log('body:', body);
       if (req.file && req.file.filename != '') body.voice = req.file.path;
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
