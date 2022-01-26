@@ -25,7 +25,7 @@ export default {
   createOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const body = req.body;
-      if (req.file && req.file.filename != '') body.voice = req.file.path;
+      if (req.file && req.file.filename != '') body.voice = `localhost:4444/uploads/${req.file.filename}`;
       const childData: IChildData = body;
       const parentId: Types.ObjectId = childData.parent;
       const parent = await ParentTextService.getOne({ _id: parentId })('-_id -childTexts')();
@@ -40,7 +40,7 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
         .sample(1)

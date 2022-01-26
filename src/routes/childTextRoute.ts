@@ -13,8 +13,8 @@ const upload = multer({
 
 const childTextRouter = Router();
 
-childTextRouter.get(':/id', ChildTextController.getOne);
-childTextRouter.get('/', ChildTextController.getAll);
+childTextRouter.get('/', ChildTextController.getOne);
+// childTextRouter.get('/', ChildTextController.getAll);
 childTextRouter
   .route('/')
   .post(upload.single('audio'), ChildTextController.createOne)
