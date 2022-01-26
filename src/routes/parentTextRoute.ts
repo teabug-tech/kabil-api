@@ -7,7 +7,7 @@ import multer from 'multer';
 const upload = multer({
   dest: 'uploads/',
   fileFilter: function (req, file, cb) {
-    if (file.mimetype != 'audio/mp3') return cb(new Error('Something went wrong'));
+    if (file.mimetype != 'audio/mpeg') return cb(new Error('Something went wrong'));
 
     cb(null, true);
   },
@@ -21,6 +21,7 @@ if (process.env.NODE_ENV == 'test') ParentTextRouter = express();
 
 ParentTextRouter.post('/', upload.single('audio'), ParentTextController.createOne);
 ParentTextRouter.put('/', upload.single('audio'), ParentTextController.updateOne);
+ParentTextRouter.get('/completed', ParentTextController.getCompleted);
 ParentTextRouter.get('/:id', async (req: IRequest, res, next) => {
   return await ParentTextController.getOneAndPopulate({ _id: req.params.id })([
     'arabicScript',

@@ -13,12 +13,15 @@ import ParentTextRouter from './routes/parentTextRoute';
 import childTextRouter from './routes/childTextRoute';
 import cors from 'cors';
 import validationRouter from './routes/validationRoute';
+import path from 'path';
 
 dotenv.config();
 const app = express();
 
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
+app.get('/', (req, res) => res.end(__dirname));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());

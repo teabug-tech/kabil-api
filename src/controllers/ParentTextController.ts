@@ -30,6 +30,21 @@ const validateParentData = async (data: Refs, id: Types.ObjectId) => {
 
 export default {
   ...controller(ParentTextService),
+  getCompleted: async (req: IRequest, res: Response, next: NextFunction) => {
+    try {
+      console.log('hello');
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
+      const text = await parentTextModel
+        .aggregate([...lookupObjects])
+        .match({ isCompleted: true })
+        .sample(1)
+        .exec();
+      if (!text.length) return await ChildTextController.getOne(req, res, next);
+      res.send(text);
+    } catch (e) {
+      next(e);
+    }
+  },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'voice', 'dialect']);
@@ -48,7 +63,7 @@ export default {
     try {
       const body = req.body;
       console.log('body:', body);
-      if (req.file && req.file.filename != '') body.voice = req.file.path;
+      if (req.file && req.file.filename != '') body.voice = `localhost:4444/${req.file.filename}`;
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
       const result = await exec();
