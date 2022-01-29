@@ -8,11 +8,13 @@ const validationSchema = new Schema<IValidation>({
     type: Schema.Types.ObjectId,
     ref: 'childText',
   },
-  answer: {
-    type: String,
-    enum: ['yes', 'no'],
-    required: true,
-  },
+  answers: [
+    {
+      type: String,
+      enum: ['yes', 'no'],
+      required: true,
+    },
+  ],
 });
 
 validationSchema.path('text').validate(Refvalidator(childTextModel), 'invalid references');

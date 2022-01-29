@@ -68,11 +68,10 @@ export interface IUser {
   role: 'guest' | 'admin' | 'user';
   password?: string;
 }
-
 export interface IValidation {
   _id?: Types.ObjectId;
   text: Types.ObjectId;
-  answer: 'yes' | 'no';
+  answers: ['yes' | 'no'];
 }
 export interface IVoice {
   _id?: Types.ObjectId;
