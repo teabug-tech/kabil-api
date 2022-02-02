@@ -64,7 +64,7 @@ export default {
         .exec();
       const fields = getRandomFields(['arabicScript', 'latinScript', 'voice'], Math.floor((Math.random() + 0.5) * 2));
       const parent = makeParentObject(text[0], fields);
-      return res.send(parent);
+      return res.send([parent]);
     } catch (e) {
       next(e);
     }
