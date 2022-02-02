@@ -31,7 +31,7 @@ export const userAuth = (req: IRequest, res: Response, next: NextFunction) => {
     console.log(token);
     if (!token) throw new Error('not allowed');
     const user = jwt.verify(token, process.env.JWT_SECRET);
-    if (user.role != 'user') throw new Error('not allowed');
+    if (user.role != 'user' || user.role != 'guest') throw new Error('not allowed');
     req.user = user;
     next();
   } catch (e) {
