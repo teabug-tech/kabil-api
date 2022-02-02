@@ -8,8 +8,9 @@ export default {
   createOne: async (req: Request, res: Response, next: NextFunction) => {
     try {
       const data = req.body.data;
-      if (data.role != 'guest' && data.role != 'user')
-        return res.status(400).json({ success: false, message: 'wrong user role' });
+      if (data.role)
+        if (data.role != 'guest' && data.role != 'user')
+          return res.status(400).json({ success: false, message: 'wrong user role' });
       let dialect = await DialectService.getOne({ name: data.name })()();
       if (!dialect) dialect = await DialectService.createOne({ name: data.dialect })();
       data.dialect = dialect._id;
