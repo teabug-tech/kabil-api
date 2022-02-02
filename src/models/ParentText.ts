@@ -1,7 +1,9 @@
 import { model, Schema } from 'mongoose';
 import { Refvalidator } from '../shared/existValidator';
 import { IParentText } from '../types';
+import ChildTextService from '../services/ChildTextService';
 import domainModel from './Domain';
+import childTextModel from './ChildText';
 
 const parentTextSchema = new Schema<IParentText>({
   arabicScript: {
