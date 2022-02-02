@@ -47,15 +47,14 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      // const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
-      // const text = await parentTextModel
-      //   .aggregate([...lookupObjects])
-      //   .match({ isCompleted: false })
-      //   .sample(1)
-      //   .exec();
-      // if (!text.length)
-      return await ChildTextController.getSlice(req, res, next);
-      // res.send(text);
+      const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
+      const text = await parentTextModel
+        .aggregate([...lookupObjects])
+        .match({ isCompleted: false })
+        .sample(1)
+        .exec();
+      if (!text.length) return await ChildTextController.getSlice(req, res, next);
+      res.send(text);
     } catch (e) {
       next(e);
     }
