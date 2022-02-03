@@ -25,6 +25,7 @@ export interface IChildText {
   dialect: Types.ObjectId;
   gender: 'male' | 'female';
   parent: Types.ObjectId;
+  validatedBy: [Types.ObjectId];
 }
 export interface IDialect {
   _id?: Types.ObjectId;

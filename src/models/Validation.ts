@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose';
+import ChildTextService from '../services/ChildTextService';
 import { Refvalidator } from '../shared/existValidator';
 import { IValidation } from '../types';
 import childTextModel from './ChildText';

@@ -1,3 +1,4 @@
+import { ObjectId } from 'mongodb';
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
 import childTextModel from '../models/ChildText';
@@ -73,9 +74,11 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      console.log(req.user._id.toString());
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
+        .match({ validatedBy: { $elemMatch: { $ne: new ObjectId(req.user._id) } } })
         .sample(1)
         .exec();
       res.send(text);

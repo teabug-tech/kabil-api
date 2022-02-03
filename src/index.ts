@@ -38,7 +38,6 @@ const start = async () => {
 };
 
 app.use('/users', userRouter);
-app.use('/validations', validationRouter);
 
 app.use('/auth', googleAuthRouter);
 app.use('/auth', facebookAuthRouter);
@@ -48,6 +47,7 @@ app.use('/test', testRouter);
 app.use(userAuth);
 app.use('/parent/texts', ParentTextRouter);
 app.use('/child/texts', childTextRouter);
+app.use('/validations', validationRouter);
 
 app.get('/hello', (req, res) => {
   return res.end('hello world');

@@ -43,6 +43,14 @@ const childTextSchema = new Schema<IChildText>({
     ref: 'parentText',
     required: true,
   },
+  validatedBy: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+      required: true,
+      default: [],
+    },
+  ],
 });
 
 childTextSchema.path('arabicScript').validate(Refvalidator(arabicScriptModel), 'Invalid Reference!');
