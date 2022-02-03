@@ -78,7 +78,7 @@ export default {
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
-        .match({ validatedBy: { $elemMatch: { $ne: new ObjectId(req.user._id) } } })
+        .match({ validatedBy: { $elemMatch: { $ne: new ObjectId(req.user._id.toString()) } } })
         .sample(1)
         .exec();
       res.send(text);

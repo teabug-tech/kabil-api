@@ -4,13 +4,23 @@ import * as dotenv from 'dotenv';
 import { IRequest } from '../types';
 import multer from 'multer';
 
+const storage = multer.diskStorage({
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '.mp3');
+  },
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+});
+
 const upload = multer({
-  dest: 'uploads/',
   fileFilter: function (req, file, cb) {
+    console.log('FILE MIME:', file.mimetype);
     if (file.mimetype != 'audio/mp3' && file.mimetype != 'audio/mpeg') return cb(new Error('Something went wrong'));
 
     cb(null, true);
   },
+  storage: storage,
 });
 
 dotenv.config();
