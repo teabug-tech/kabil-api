@@ -1,3 +1,4 @@
+import { ObjectId } from 'bson';
 import { model, Schema } from 'mongoose';
 import ParentTextService from '../services/ParentTextService';
 import { Refvalidator } from '../shared/existValidator';
@@ -48,7 +49,6 @@ const childTextSchema = new Schema<IChildText>({
       type: Schema.Types.ObjectId,
       ref: 'user',
       required: true,
-      default: [],
     },
   ],
 });
@@ -66,6 +66,10 @@ childTextSchema.post('save', async function (child: IChildText) {
   console.log(await exec());
 });
 
+childTextSchema.pre('save', function (next) {
+  if (this.validatedBy.length == 0) this.validatedBy.push(new ObjectId());
+  next();
+});
 const childTextModel = model('ChildText', childTextSchema);
 
 export default childTextModel;
