@@ -74,11 +74,11 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      console.log(req.user._id.toString());
+      console.log(req.user);
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
-        .match({ validatedBy: { $elemMatch: { $ne: new ObjectId(req.user._id.toString()) } } })
+        .match({ _id: { $nin: req.user.validatedTexts } })
         .sample(1)
         .exec();
       res.send(text);

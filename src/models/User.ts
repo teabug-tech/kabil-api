@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Types } from 'mongoose';
 import { Refvalidator } from '../shared/existValidator';
 import { IUser } from '../types';
 import dialectModel from './Dialect';
@@ -45,6 +45,12 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
+  validatedTexts: [
+    {
+      ref: 'childText',
+      type: Schema.Types.ObjectId,
+    },
+  ],
 });
 
 userSchema.path('dialect').validate(Refvalidator(dialectModel), 'invalid references');
