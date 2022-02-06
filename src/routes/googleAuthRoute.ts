@@ -21,8 +21,8 @@ async function verify(idToken, audience) {
 
 googleAuthRouter.post('/google', async (req: IRequest, res, next) => {
   try {
-    const token = req.params.token;
-    const clientId = req.params.clientId;
+    const token = req.body.token;
+    const clientId = req.body.clientId;
     const payload = await verify(token, clientId);
     res.status(200).json({ success: true, message: payload });
   } catch (e) {
