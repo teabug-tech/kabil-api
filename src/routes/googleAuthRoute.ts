@@ -26,7 +26,7 @@ googleAuthRouter.post('/google', async (req: IRequest, res, next) => {
     const token = req.body.token;
     const clientId = req.body.clientId;
     const payload = await verify(token, clientId);
-    const user = await UserService.getOneAndPopulate({ email: user.email })(['dialect'])()();
+    const user = await UserService.getOneAndPopulate({ email: payload.email })(['dialect'])()();
     if (!user) throw new Error('User does not exist');
     const jwtToken = jwt.sign({ ...user }, process.env.JWT_SECRET);
     res.cookie('JWT', jwtToken, { sameSite: 'none', secure: false });
