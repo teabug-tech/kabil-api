@@ -43,7 +43,7 @@ app.use('/auth', googleAuthRouter);
 app.use('/auth', facebookAuthRouter);
 
 app.use('/test', testRouter);
-
+app.use('/auth', googleAuthRouter);
 app.use(userAuth);
 app.use('/parent/texts', ParentTextRouter);
 app.use('/child/texts', childTextRouter);
