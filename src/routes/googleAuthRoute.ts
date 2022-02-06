@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import { OAuth2Client } from 'google-auth-library';
+import UserService from '../services/UserService';
 import { IRequest } from '../types';
+import jwt from 'jsonwebtoken';
 
 const googleAuthRouter = Router();
 
@@ -24,7 +26,10 @@ googleAuthRouter.post('/google', async (req: IRequest, res, next) => {
     const token = req.body.token;
     const clientId = req.body.clientId;
     const payload = await verify(token, clientId);
-    res.status(200).json({ success: true, message: payload });
+    const user = await UserService.getOne({ email: payload.email })()();
+    if (!user) throw new Error('User does not exist');
+    const jwtToken = jwt.sign({ ...user }, process.env.JWT_SECRET);
+    res.status(200).json({ success: true, message: jwtToken });
   } catch (e) {
     next(e);
   }
