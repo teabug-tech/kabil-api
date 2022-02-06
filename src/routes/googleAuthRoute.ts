@@ -1,39 +1,30 @@
-import { auth } from '@googleapis/docs';
 import { Router } from 'express';
-import { google } from 'googleapis';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
+import { OAuth2Client } from 'google-auth-library';
+import { IRequest } from '../types';
 
 const googleAuthRouter = Router();
 
-const oauth2Client = new auth.OAuth2(
-  process.env.GOOGLE_CLIENT_ID,
-  process.env.GOOGLE_CLIENT_SECRET,
-  process.env.GOOGLE_REDIRECT_URL,
-);
-
-// generate a url that asks permissions for Blogger and Google Calendar scopes
-
-googleAuthRouter.get('/google/url', (req, res) => {
-  const scopes = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'];
-  const url = oauth2Client.generateAuthUrl({
-    // 'online' (default) or 'offline' (gets refresh_token)
-    access_type: 'offline',
-
-    // If you only need one scope you can pass it as a string
-    scope: scopes,
+async function verify(idToken, audience) {
+  const client = new OAuth2Client(audience);
+  const ticket = await client.verifyIdToken({
+    idToken,
+    audience, // Specify the CLIENT_ID of the app that accesses the backend
+    // Or, if multiple clients access the backend:
+    //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
   });
-  return res.send(url);
-});
+  const payload = ticket.getPayload();
+  const userid = payload['sub'];
+  return payload;
+  // If request specified a G Suite domain:
+  // const domain = payload['hd'];
+}
 
-googleAuthRouter.get('/google', async (req, res, next) => {
+googleAuthRouter.post('/google', async (req: IRequest, res, next) => {
   try {
-    const oauth2 = google.oauth2({ auth: oauth2Client, version: 'v2' });
-    const { access_token, id_token } = (await oauth2Client.getToken(req.query.code as string)).tokens;
-    oauth2Client.setCredentials({ access_token, id_token });
-    const user = (await oauth2.userinfo.get()).data;
-    return res.send(user);
+    const token = req.params.token;
+    const clientId = req.params.clientId;
+    const payload = await verify(token, clientId);
+    res.status(200).json({ success: true, message: payload });
   } catch (e) {
     next(e);
   }
