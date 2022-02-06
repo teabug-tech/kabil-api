@@ -100,11 +100,33 @@ export default {
     try {
       const body = req.body;
       const id = body.id as Types.ObjectId;
-      console.log(body);
       if (req.file && req.file.filename != '') body.voice = req.file.path;
       await validateParentData(body, id);
       const parent = await makeParentObject(body, req.user._id);
       const result = await ParentTextService.updateOne({ _id: id })({ ...parent })({ new: true })();
+      const insertData = UserService.updateOne({ _id: req.user._id });
+      const insertOptions = insertData({ $push: { createdTexts: result._id } });
+      const execUser = insertOptions();
+      await execUser();
+      if (
+        result.latinScript &&
+        result.arabicScript &&
+        result.voice &&
+        result.gender &&
+        result.dialect &&
+        result.domain
+      ) {
+        const exec = ChildTextService.createOne({
+          gender: result.gender,
+          dialect: result.dialect,
+          domain: result.domain,
+          voice: result.voice,
+          arabicScript: result.arabicScript,
+          latinScript: result.latinScript,
+          parent: result._id,
+        });
+        await exec();
+      }
       res.send(result);
     } catch (e) {
       next(e);
