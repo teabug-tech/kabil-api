@@ -51,6 +51,12 @@ const userSchema = new Schema<IUser>({
       type: Schema.Types.ObjectId,
     },
   ],
+  createdTexts: [
+    {
+      ref: 'parentText',
+      type: Schema.Types.ObjectId,
+    },
+  ],
 });
 
 userSchema.path('dialect').validate(Refvalidator(dialectModel), 'invalid references');

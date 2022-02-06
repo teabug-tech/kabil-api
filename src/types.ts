@@ -69,6 +69,7 @@ export interface IUser {
   role: 'guest' | 'admin' | 'user';
   password?: string;
   validatedTexts: [Types.ObjectId];
+  createdTexts: [Types.ObjectId];
 }
 export interface IValidation {
   _id?: Types.ObjectId;

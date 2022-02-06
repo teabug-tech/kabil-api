@@ -1,7 +1,9 @@
 import { NextFunction, Response } from 'express';
 import { Types } from 'mongoose';
 import parentTextModel from '../models/ParentText';
+import ChildTextService from '../services/ChildTextService';
 import ParentTextService from '../services/ParentTextService';
+import UserService from '../services/UserService';
 import controller from '../shared/controller';
 import { applyOp, makeLookupObjects, Ops, services } from '../shared/helpers';
 import { IParentText, IRequest, Refs } from '../types';
@@ -50,7 +52,7 @@ export default {
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
-        .match({ isCompleted: false })
+        .match({ $and: [{ isCompleted: false }, { _id: { $nin: req.user.createdTexts } }] })
         .sample(1)
         .exec();
       if (!text.length) return await ChildTextController.getSlice(req, res, next);
@@ -66,7 +68,30 @@ export default {
       const parent: IParentText = await makeParentObject(body, req.user._id);
       const exec = ParentTextService.createOne(parent);
       const result = await exec();
-      res.send(result);
+      const insertData = UserService.updateOne({ _id: req.user._id });
+      const insertOptions = insertData({ $push: { createdTexts: result._id } });
+      const execUser = insertOptions();
+      await execUser();
+      if (
+        result.latinScript &&
+        result.arabicScript &&
+        result.voice &&
+        result.gender &&
+        result.dialect &&
+        result.domain
+      ) {
+        const exec = ChildTextService.createOne({
+          gender: result.gender,
+          dialect: result.dialect,
+          domain: result.domain,
+          voice: result.voice,
+          arabicScript: result.arabicScript,
+          latinScript: result.latinScript,
+          parent: result._id,
+        });
+        await exec();
+      }
+      res.json({ success: true, message: result._id });
     } catch (e) {
       next(e);
     }

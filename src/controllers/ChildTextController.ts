@@ -46,11 +46,9 @@ export default {
       const body = req.body;
       if (req.file && req.file.filename != '') body.voice = `http://localhost:4444/uploads/${req.file.filename}`;
       const childData: IChildData = body;
-      console.log('DATA:', childData);
       const parentId: Types.ObjectId = childData.parent;
       const parent = await ParentTextService.getOne({ _id: parentId })('-_id -childTexts')();
       const child: IChildText = await makeChildObject(childData, parent, req.user._id);
-      console.log('CHILD:', child);
       const exec = ChildTextService.createOne(child);
       const createdChild = await exec();
       return res.send(createdChild);
