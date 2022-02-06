@@ -61,6 +61,7 @@ export default {
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
+        .match({ $and: [{ isCompleted: false }, { _id: { $nin: req.user.createdTexts } }] })
         .sample(1)
         .exec();
       const fields = getRandomFields(['arabicScript', 'latinScript', 'voice'], Math.floor((Math.random() + 0.5) * 2));
