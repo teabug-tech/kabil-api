@@ -1,0 +1,23 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const mongoose_1 = require("mongoose");
+const existValidator_1 = require("../shared/existValidator");
+const User_1 = __importDefault(require("./User"));
+const voiceSchema = new mongoose_1.Schema({
+    url: {
+        type: String,
+        required: true,
+    },
+    user: {
+        type: mongoose_1.Schema.Types.ObjectId,
+        ref: 'user',
+        required: true,
+    },
+});
+const voiceModel = (0, mongoose_1.model)('voice', voiceSchema);
+voiceSchema.path('user').validate((0, existValidator_1.Refvalidator)(User_1.default), 'invalid references');
+exports.default = voiceModel;
+//# sourceMappingURL=Voice.js.map

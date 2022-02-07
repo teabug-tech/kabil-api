@@ -1,0 +1,1 @@
+{"version":3,"file":"Domain.js","sourceRoot":"","sources":["../../src/models/Domain.ts"],"names":[],"mappings":";;AAAA,uCAAyC;AAGzC,MAAM,YAAY,GAAG,IAAI,iBAAM,CAAU;IACvC,IAAI,EAAE;QACJ,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;KACf;CACF,CAAC,CAAC;AAEH,MAAM,WAAW,GAAG,IAAA,gBAAK,EAAC,QAAQ,EAAE,YAAY,CAAC,CAAC;AAElD,kBAAe,WAAW,CAAC"}

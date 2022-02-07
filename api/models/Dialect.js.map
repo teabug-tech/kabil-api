@@ -1,0 +1,1 @@
+{"version":3,"file":"Dialect.js","sourceRoot":"","sources":["../../src/models/Dialect.ts"],"names":[],"mappings":";;AAAA,uCAAyC;AAGzC,MAAM,aAAa,GAAG,IAAI,iBAAM,CAAW;IACzC,IAAI,EAAE;QACJ,IAAI,EAAE,MAAM;QACZ,QAAQ,EAAE,IAAI;KACf;CACF,CAAC,CAAC;AAEH,MAAM,YAAY,GAAG,IAAA,gBAAK,EAAC,SAAS,EAAE,aAAa,CAAC,CAAC;AAGrD,kBAAe,YAAY,CAAC"}
