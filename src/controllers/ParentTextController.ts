@@ -9,6 +9,10 @@ import { applyOp, makeLookupObjects, Ops, services } from '../shared/helpers';
 import { IParentText, IRequest, Refs } from '../types';
 import ChildTextController from './ChildTextController';
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 const makeParentObject = async (data: Refs, user: Types.ObjectId) => {
   const parent = { ...data };
   for (const key in data) {
@@ -49,6 +53,7 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
+      if (getRandomInt(2) == 0) return res.send({});
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
