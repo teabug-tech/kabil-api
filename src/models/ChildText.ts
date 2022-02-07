@@ -63,7 +63,7 @@ childTextSchema.post('save', async function (child: IChildText) {
   const insertData = ParentTextService.updateOne({ _id: child.parent._id });
   const insertOptions = insertData({ $push: { childTexts: child._id } });
   const exec = insertOptions({ new: true });
-  console.log(await exec());
+  await exec();
 });
 
 childTextSchema.pre('save', function (next) {
