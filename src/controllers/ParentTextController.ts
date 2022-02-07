@@ -53,7 +53,7 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      if (getRandomInt(2) == 0) return res.send([]);
+      if (getRandomInt(2) == 0) return res.send([{}]);
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
