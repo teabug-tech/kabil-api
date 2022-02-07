@@ -77,7 +77,7 @@ export default {
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
-        .match({ $or: [{ parent: { $nin: req.user.createdTexts } }, { _id: { $nin: req.user.validatedTexts } }] })
+        .match({ $and: [{ _id: { $nin: req.user.createdTexts } }, { _id: { $nin: req.user.validatedTexts } }] })
         .sample(1)
         .exec();
       res.send(text);
