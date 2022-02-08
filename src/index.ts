@@ -15,11 +15,13 @@ import cors from 'cors';
 import validationRouter from './routes/validationRoute';
 import path from 'path';
 
+const PORT = process.env.PORT || '4444';
+
 dotenv.config();
 const app = express();
 
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: 'https://kabil-webapp.vercel.app/', credentials: true }));
 
 app.get('/', (req, res) => res.end(__dirname));
 app.use(morgan('combined'));
@@ -29,8 +31,8 @@ app.use(cookieParser());
 const start = async () => {
   try {
     await connect();
-    app.listen(process.env.PORT, () => {
-      console.log(`Server up and running on port ${process.env.PORT} !`);
+    app.listen(PORT, () => {
+      console.log(`Server up and running on port ${PORT} !`);
     });
   } catch (e) {
     console.error(e);
