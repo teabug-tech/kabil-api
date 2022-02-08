@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": {
+    "node": "16.13.x"
+  },
   "scripts": {
     "test": "mocha -r ts-node/register 'src/test/**/*.ts' --timeout 10000",
     "lint": "eslint . --ext .ts",
