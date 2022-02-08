@@ -22,7 +22,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
 app.get('/', (req, res) => res.end(__dirname));
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 
