@@ -38,3 +38,4 @@ dist/**/*
 yarn.lock
 
 uploads/
+.vercel

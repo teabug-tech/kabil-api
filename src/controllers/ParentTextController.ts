@@ -38,7 +38,6 @@ export default {
   ...controller(ParentTextService),
   getCompleted: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      console.log('hello');
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
@@ -53,7 +52,7 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      if (getRandomInt(2) == 0) return res.send([{}]);
+      if (getRandomInt(2)) return res.send([{}]);
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'voice', 'domain', 'dialect']);
       const text = await parentTextModel
         .aggregate([...lookupObjects])
@@ -111,7 +110,7 @@ export default {
       const result = await ParentTextService.updateOne({ _id: id })({ ...parent })({ new: true })();
       const insertData = UserService.updateOne({ _id: req.user._id });
       const insertOptions = insertData({ $push: { createdTexts: result._id } });
-      const execUser = insertOptions();
+      const execUser = insertOptions({ new: true });
       await execUser();
       if (
         result.latinScript &&

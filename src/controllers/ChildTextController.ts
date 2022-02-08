@@ -7,6 +7,7 @@ import ParentTextService from '../services/ParentTextService';
 import controller from '../shared/controller';
 import { applyOp, makeLookupObjects, Ops } from '../shared/helpers';
 import { IChildData, IChildText, IParentText, IRequest, Refs } from '../types';
+import UserService from '../services/UserService';
 
 const getRandomFields = (keys: string[], fieldsCount: number) =>
   keys.sort(() => 0.5 - Math.random()).slice(0, fieldsCount);
@@ -51,6 +52,10 @@ export default {
       const child: IChildText = await makeChildObject(childData, parent, req.user._id);
       const exec = ChildTextService.createOne(child);
       const createdChild = await exec();
+      const insertData = UserService.updateOne({ _id: req.user._id });
+      const insertOptions = insertData({ $push: { createdTexts: createdChild.parent } });
+      const execUser = insertOptions({ new: true });
+      await execUser();
       return res.send(createdChild);
     } catch (e) {
       next(e);
