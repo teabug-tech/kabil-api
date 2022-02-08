@@ -14,8 +14,7 @@ import childTextRouter from './routes/childTextRoute';
 import cors from 'cors';
 import validationRouter from './routes/validationRoute';
 import path from 'path';
-
-const PORT = process.env.PORT || '4444';
+import { PORT } from './const';
 
 dotenv.config();
 const app = express();
