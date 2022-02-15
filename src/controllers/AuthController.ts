@@ -7,6 +7,7 @@ import bcrypt from 'bcrypt';
 dotenv.config();
 export default (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log(req.body.user);
     const token = jwt.sign({ ...req.body.user }, process.env.JWT_SECRET);
     res.cookie('JWT', token, { sameSite: 'none', secure: false });
     return res.json({ success: true, message: req.body.user });

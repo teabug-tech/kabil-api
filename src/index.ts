@@ -14,6 +14,7 @@ import childTextRouter from './routes/childTextRoute';
 import cors from 'cors';
 import validationRouter from './routes/validationRoute';
 import path from 'path';
+import guestRouter from './routes/guestRoute';
 
 dotenv.config();
 const app = express();
@@ -41,7 +42,7 @@ app.use('/users', userRouter);
 
 app.use('/auth', googleAuthRouter);
 app.use('/auth', facebookAuthRouter);
-
+app.use('/guest', guestRouter);
 app.use('/test', testRouter);
 app.use('/auth', googleAuthRouter);
 app.use(userAuth);
