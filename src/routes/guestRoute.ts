@@ -27,8 +27,9 @@ const createGuest = async () => {
 
 guestRouter.post('/', async (req, res, next) => {
   try {
-    const guest = createGuest();
-    const token = jwt.sign({ ...guest }, process.env.JWT_SECRET);
+    const guest = await createGuest();
+    const tokenGuest = { _id: guest._id, role: guest.role };
+    const token = jwt.sign({ ...tokenGuest }, process.env.JWT_SECRET);
     res.cookie('JWT', token, { sameSite: 'none', secure: false });
     return res.json({ success: true, message: token });
   } catch (e) {
