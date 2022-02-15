@@ -15,6 +15,7 @@ import cors from 'cors';
 import validationRouter from './routes/validationRoute';
 import path from 'path';
 import { PORT } from './const';
+import guestRouter from './routes/guestRoute';
 
 dotenv.config();
 const app = express();
@@ -38,6 +39,7 @@ const start = async () => {
   }
 };
 
+app.use('/guest', guestRouter);
 app.use('/users', userRouter);
 
 app.use('/auth', googleAuthRouter);
