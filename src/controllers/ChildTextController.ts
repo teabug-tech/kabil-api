@@ -45,10 +45,12 @@ export default {
   createOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
       const body = req.body;
-      if (req.file && req.file.filename != '') body.voice = `http://localhost:4444/uploads/${req.file.filename}`;
+      if (req.file && req.file.filename != '') body.voice = req.file.buffer
       const childData: IChildData = body;
       const parentId: Types.ObjectId = childData.parent;
       const parent = await ParentTextService.getOne({ _id: parentId })('-_id -childTexts')();
+      if (!parent)
+        throw new Error("parent not found");
       const child: IChildText = await makeChildObject(childData, parent, req.user._id);
       const exec = ChildTextService.createOne(child);
       const createdChild = await exec();

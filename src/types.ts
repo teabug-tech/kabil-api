@@ -9,7 +9,7 @@ export interface IChildData {
   _id?: Types.ObjectId;
   arabicScript?: Types.ObjectId;
   latinScript?: Types.ObjectId;
-  voice?: Types.ObjectId;
+  voice?: Types.Buffer;
   domain?: Types.ObjectId;
   dialect?: Types.ObjectId;
   gender?: 'male' | 'female';
@@ -20,7 +20,7 @@ export interface IChildText {
   _id?: Types.ObjectId;
   arabicScript: Types.ObjectId;
   latinScript: Types.ObjectId;
-  voice: Types.ObjectId;
+  voice: Types.Buffer;
   domain: Types.ObjectId;
   dialect: Types.ObjectId;
   gender: 'male' | 'female';
@@ -78,7 +78,7 @@ export interface IValidation {
 }
 export interface IVoice {
   _id?: Types.ObjectId;
-  url: string;
+  buffer: Buffer;
   user: Types.ObjectId;
 }
 

@@ -20,7 +20,9 @@ export const makeLookupObjects = (lookups: Array<string>): Array<Lookup> =>
 export const services = {
   latinScript: async (data) => await LatinScriptService.createOne({ user: data.user, script: data.latinScript })(),
   arabicScript: async (data) => await ArabicScriptService.createOne({ user: data.user, script: data.arabicScript })(),
-  voice: async (data) => await VoiceService.createOne({ user: data.user, url: data.voice })(),
+  voice: async (data) => {
+    return await VoiceService.createOne({ user: data.user, buffer: data.voice })()
+  },
   domain: async (data) => await DomainService.createOne({ name: data.domain })(),
   dialect: async (data) => await DialectService.createOne({ name: data.dialect })(),
 };

@@ -2,14 +2,7 @@ import { Router } from 'express';
 import ChildTextController from '../controllers/ChildTextController';
 import multer from 'multer';
 
-const storage = multer.diskStorage({
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '.mp3');
-  },
-  destination: function (req, file, callback) {
-    callback(null, './uploads');
-  },
-});
+const storage = multer.memoryStorage()
 
 const upload = multer({
   fileFilter: function (req, file, cb) {

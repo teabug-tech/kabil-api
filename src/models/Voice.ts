@@ -4,8 +4,8 @@ import { IVoice } from '../types';
 import userModel from './User';
 
 const voiceSchema = new Schema<IVoice>({
-  url: {
-    type: String,
+  buffer: {
+    type: Schema.Types.Buffer,
     required: true,
   },
   user: {
