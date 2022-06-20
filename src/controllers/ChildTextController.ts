@@ -80,7 +80,7 @@ export default {
   },
   getOne: async (req: IRequest, res: Response, next: NextFunction) => {
     try {
-      console.log(req.user);
+      console.log(req.user);  
       const lookupObjects = makeLookupObjects(['arabicScript', 'latinScript', 'domain', 'voice', 'dialect']);
       const text = await childTextModel
         .aggregate([...lookupObjects])
