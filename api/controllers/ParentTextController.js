@@ -77,7 +77,7 @@ exports.default = Object.assign(Object.assign({}, (0, controller_1.default)(Pare
         try {
             const body = req.body;
             if (req.file && req.file.filename != '')
-                body.voice = `http://localhost:4444/uploads/${req.file.filename}`;
+                body.voice = req.file.buffer;
             const parent = yield makeParentObject(body, req.user._id);
             const exec = ParentTextService_1.default.createOne(parent);
             const result = yield exec();

@@ -65,10 +65,10 @@ const userAuth = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
         }
         if (!token)
             token = req.headers['jwt'];
-        token;
         if (!token)
             throw new Error('not allowed');
         const user = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        console.log(user);
         if (user.role != 'user' && user.role != 'guest')
             throw new Error('not allowed');
         req.user = yield User_1.default.findById(user._id);

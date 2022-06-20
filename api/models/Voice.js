@@ -7,8 +7,8 @@ const mongoose_1 = require("mongoose");
 const existValidator_1 = require("../shared/existValidator");
 const User_1 = __importDefault(require("./User"));
 const voiceSchema = new mongoose_1.Schema({
-    url: {
-        type: String,
+    buffer: {
+        type: mongoose_1.Schema.Types.Buffer,
         required: true,
     },
     user: {

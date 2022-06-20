@@ -31,35 +31,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importStar(require("express"));
-const ParentTextController_1 = __importDefault(require("../controllers/ParentTextController"));
+const express_1 = require("express");
 const dotenv = __importStar(require("dotenv"));
-const multer_1 = __importDefault(require("multer"));
-const storage = multer_1.default.memoryStorage();
-const upload = (0, multer_1.default)({
-    fileFilter: function (req, file, cb) {
-        if (file.mimetype != 'audio/mp3' && file.mimetype != 'audio/mpeg')
-            return cb(new Error('Something went wrong'));
-        cb(null, true);
-    },
-    storage: storage,
-});
+const gridfs_stream_1 = __importDefault(require("gridfs-stream"));
+const mongoose_1 = require("mongoose");
 dotenv.config();
-let ParentTextRouter = (0, express_1.Router)();
-if (process.env.NODE_ENV == 'test')
-    ParentTextRouter = (0, express_1.default)();
-ParentTextRouter.post('/', upload.single('audio'), ParentTextController_1.default.createOne);
-ParentTextRouter.put('/', upload.single('audio'), ParentTextController_1.default.updateOne);
-ParentTextRouter.get('/completed', ParentTextController_1.default.getCompleted);
-ParentTextRouter.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield ParentTextController_1.default.getOneAndPopulate({ _id: req.params.id })([
-        'arabicScript',
-        'latinScript',
-        'dialect',
-        'voice',
-        'domain',
-    ])()(req, res, next);
+const voiceRouter = (0, express_1.Router)();
+const gfs = (0, gridfs_stream_1.default)(mongoose_1.connection.db, mongoose_1.mongo);
+gfs.collection('');
+voiceRouter.get('/:id', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const readstream = gfs.createReadStream({ filename: req.params.id });
+    readstream.on('error', function (error) {
+        res.sendStatus(500);
+    });
+    res.type('audio/mpeg');
+    readstream.pipe(res);
 }));
-ParentTextRouter.get('/', ParentTextController_1.default.getOne);
-exports.default = ParentTextRouter;
-//# sourceMappingURL=parentTextRoute.js.map
+//# sourceMappingURL=voiceRoute.js.map

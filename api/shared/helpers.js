@@ -30,7 +30,9 @@ exports.makeLookupObjects = makeLookupObjects;
 exports.services = {
     latinScript: (data) => __awaiter(void 0, void 0, void 0, function* () { return yield LatinScriptService_1.default.createOne({ user: data.user, script: data.latinScript })(); }),
     arabicScript: (data) => __awaiter(void 0, void 0, void 0, function* () { return yield ArabicScriptService_1.default.createOne({ user: data.user, script: data.arabicScript })(); }),
-    voice: (data) => __awaiter(void 0, void 0, void 0, function* () { return yield VoiceService_1.default.createOne({ user: data.user, url: data.voice })(); }),
+    voice: (data) => __awaiter(void 0, void 0, void 0, function* () {
+        return yield VoiceService_1.default.createOne({ user: data.user, buffer: data.voice })();
+    }),
     domain: (data) => __awaiter(void 0, void 0, void 0, function* () { return yield DomainService_1.default.createOne({ name: data.domain })(); }),
     dialect: (data) => __awaiter(void 0, void 0, void 0, function* () { return yield DialectService_1.default.createOne({ name: data.dialect })(); }),
 };

@@ -39,6 +39,7 @@ const bcrypt_1 = __importDefault(require("bcrypt"));
 dotenv.config();
 exports.default = (req, res, next) => {
     try {
+        console.log(req.body.user);
         const token = jsonwebtoken_1.default.sign(Object.assign({}, req.body.user), process.env.JWT_SECRET);
         res.cookie('JWT', token, { sameSite: 'none', secure: false });
         return res.json({ success: true, message: req.body.user });

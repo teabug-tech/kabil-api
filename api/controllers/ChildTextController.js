@@ -51,10 +51,12 @@ exports.default = Object.assign(Object.assign({}, (0, controller_1.default)(Chil
         try {
             const body = req.body;
             if (req.file && req.file.filename != '')
-                body.voice = `http://localhost:4444/uploads/${req.file.filename}`;
+                body.voice = req.file.buffer;
             const childData = body;
             const parentId = childData.parent;
             const parent = yield ParentTextService_1.default.getOne({ _id: parentId })('-_id -childTexts')();
+            if (!parent)
+                throw new Error("parent not found");
             const child = yield makeChildObject(childData, parent, req.user._id);
             const exec = ChildTextService_1.default.createOne(child);
             const createdChild = yield exec();
